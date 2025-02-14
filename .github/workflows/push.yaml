@@ -1,4 +1,4 @@
-name: Deploy Terraform
+name: Push Image
 
 on:
   push:
@@ -23,16 +23,16 @@ jobs:
           aws-region: us-east-1
 
       - name: Get Short Sha
-        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Docker Auth
         run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Build Image
-        run: docker build -t $GITHUB_REF-$SHORT_SHA .
+        run: docker build -t $GITHUB_REF-${SHORT_SHA} .
 
       - name: Image Tag
-        run: docker tag $GITHUB_REF-$SHORT_SHA ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:$GITHUB_REF-$SHORT_SHA
+        run: docker tag $GITHUB_REF-${SHORT_SHA} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:$GITHUB_REF-${SHORT_SHA}
 
       - name: Docker Push
-        run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:$GITHUB_REF-$SHORT_SHA
+        run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:$GITHUB_REF-${SHORT_SHA}
