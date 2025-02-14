@@ -1,0 +1,35 @@
+name: Deploy Terraform
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/sample-lrg
+          aws-region: us-east-1
+
+      - name: Docker Auth
+        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: Build Image
+        run: docker build -t $GITHUB_REF-$GITHUB_SHA .
+
+      - name: Image Tag
+        run: docker tag $GITHUB_REF-$GITHUB_SHA ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:$GITHUB_REF-$GITHUB_SHA
+
+      - name: Docker Push
+        run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:$GITHUB_REF-$GITHUB_SHA
