@@ -29,10 +29,10 @@ jobs:
         run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Build Image
-        run: docker build -t $GITHUB_REF-${SHORT_SHA} .
+        run: docker build -t ${SHORT_SHA} .
 
       - name: Image Tag
-        run: docker tag $GITHUB_REF-${SHORT_SHA} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:$GITHUB_REF-${SHORT_SHA}
+        run: docker tag ${SHORT_SHA} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:${SHORT_SHA}
 
       - name: Docker Push
-        run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:$GITHUB_REF-${SHORT_SHA}
+        run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.region.amazonaws.com/lrg-docker:${SHORT_SHA}
