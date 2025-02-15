@@ -1,0 +1,13 @@
+services:
+  lrg-local:
+    container_name: lrg
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - F:/lrg/sample-website/src/lrg:/app
+    env_file:
+      - docker-compose.env
+    ports:
+      - 8080:8080
+    entrypoint: ["gunicorn", "lrg.wsgi:application", "--bind", "0.0.0.0:8080"]
