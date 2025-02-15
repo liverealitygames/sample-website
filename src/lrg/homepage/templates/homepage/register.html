@@ -1,0 +1,40 @@
+{% extends "homepage/base.html" %}
+{% block content %}
+{% load static %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-3">Register</h2>
+        
+        <form>
+            <div class="mb-2">
+                <label for="displayName" class="form-label">Display Name</label>
+                <input type="text" class="form-control" id="displayName" placeholder="Enter a display name" required>
+            </div>
+            <div class="mb-2">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="mb-2">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Create a password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-2">Register</button>
+        </form>
+
+        <div class="text-center my-1">OR</div>
+
+        <div class="d-grid gap-2">
+            <a href="#" class="btn btn-outline-dark">
+                <img src="{% static 'images/google.png' %}" alt="Google" width="20" class="me-2"> Register with Google
+            </a>
+            <a href="#" class="btn btn-outline-dark">
+                <img src="{% static 'images/discord.png' %}" alt="Discord" width="20" class="me-2"> Register with Discord
+            </a>
+        </div>
+
+        <div class="text-center mt-3">
+            <p>Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Login here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

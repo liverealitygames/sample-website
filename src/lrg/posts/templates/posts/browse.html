@@ -1,0 +1,33 @@
+{% extends "homepage/base.html" %}
+{% block content %} 
+{% load static %}
+<div class="container mt-4">
+    <div class="row g-4"> <!-- Bootstrap grid with spacing -->
+        {% for org in sample_data %}
+        <div class="col-md-4"> <!-- Three columns per row on medium+ screens -->
+            <div class="card h-100"> <!-- Make all cards the same height -->
+                <h3 class="card-header text-center">{{ org.name }}</h3>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-middle">
+                        <h5 class="card-title">Season {{ org.season_number }}</h5>
+                        <h6 class="card-subtitle text-muted">Starts {{ org.start_date }}</h6>
+                    </div>
+                </div>
+                <img src="{{ org.logo_url }}" class="d-block user-select-none" width="100%" height="200" alt="Random image">
+                <div class="card-body">
+                    <p class="card-text">This unique LRG is casting now! 18+ please. Will only last 3 days. Be sure to bring sunscreen. Entry fee $20.</p>
+                </div>
+                <div class="card-body d-flex justify-content-between">
+                    <a href="#" class="card-link">Apply Here</a>
+                    <a href="#" class="card-link">Our Past Seasons</a>
+                </div>
+                <div class="card-footer text-muted">
+                    2 days ago
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

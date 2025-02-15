@@ -11,6 +11,25 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import boto3
+import os
+
+# RDS connection
+DB_HOSTNAME = os.environ.get("RDS_HOSTNAME")
+DB_PORT = os.environ.get("RDS_PORT")
+DB_USERNAME = os.environ.get("RDS_USERNAME")
+DB_NAME = os.environ.get("RDS_DB_NAME")
+DB_REGION = os.environ.get("RDS_REGION")
+
+# Create an RDS client
+rds_client = boto3.client("rds", DB_REGION)
+
+# Generate the auth token
+DB_PASSWORD = rds_client.generate_db_auth_token(
+    DBHostname=DB_HOSTNAME,
+    Port=int(DB_PORT),
+    DBUsername=DB_USERNAME
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +44,10 @@ SECRET_KEY = 'django-insecure-@^z-(bwebp9o^z_r&wg*+f42+z8bi-d_f(9pnb-$@mjb_fecwh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".awsapprunner.com"]
+ALLOWED_HOSTS = [
+    ".awsapprunner.com",
+    "localhost",
+    ]
 
 
 # Application definition
@@ -37,6 +59,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'homepage',
+    'posts',
+    'community',
+    'livereload',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    'livereload.middleware.LiveReloadScript',
 ]
 
 ROOT_URLCONF = 'lrg.urls'
@@ -75,9 +102,17 @@ WSGI_APPLICATION = 'lrg.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': DB_NAME, 
+        'USER': DB_USERNAME,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOSTNAME, 
+        'PORT': DB_PORT,
     }
 }
 
@@ -118,6 +153,10 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
 
 STORAGES = {
     "default": {
