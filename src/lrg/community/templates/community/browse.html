@@ -6,19 +6,19 @@
         <table class="table table-hover">
             <thead>
               <tr>
-                <th scope="col">Type</th>
+                <th scope="col">Banner</th>
                 <th scope="col">Name</th>
                 <th scope="col">Status</th>
                 <th scope="col">Owner</th>
               </tr>
             </thead>
             <tbody>
-            {% for community in sample_data %}
+            {% for community in communities %}
               <tr class="table-light">
-                <th scope="row">Dark</th>
+                <th scope="row">TBD</th>
                 <td>{{ community.name }}</td>
                 <td>{{ community.status }}</td>
-                <td>By {{ community.owner }}</td>
+                <td>By {{ community.owner.name }}</td>
               </tr>
             {% endfor %}
             </tbody>

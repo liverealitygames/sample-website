@@ -171,3 +171,4 @@ cython_debug/
 .pypirc
 
 docker-compose.env
+pg_data/*

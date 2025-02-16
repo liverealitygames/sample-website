@@ -13,17 +13,17 @@
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg bg-primary">
         <div class="container-fluid">
-          <a class="navbar-brand p-5 fs-5" href="#">LRGN</a>
+          <a class="navbar-brand p-5 fs-5" href="{% url "homepage:index" %} ">LRGN</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto ml-2">
               <li class="nav-item">
-                <a class="nav-link" href="#">Search</a>
+                <a class="nav-link" href="{% url "posts:index" %}">Search</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Organizations</a>
+                <a class="nav-link" href="{% url "community:index" %}">Communities</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Other Media</a>
@@ -44,10 +44,10 @@
             </ul>
             <ul class="navbar-nav mr-auto me-5">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Register</a>
+                    <a class="nav-link" href="{% url "homepage:register" %}">Register</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
+                    <a class="nav-link" href="{% url "homepage:login" %}">Login</a>
                 </li>
             </ul>
           </div>

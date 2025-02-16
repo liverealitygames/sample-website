@@ -25,7 +25,7 @@ DB_REGION = os.environ.get("RDS_REGION")
 rds_client = boto3.client("rds", DB_REGION)
 
 # Generate the auth token
-DB_PASSWORD = rds_client.generate_db_auth_token(
+DB_PASSWORD = DB_REGION = os.environ.get("RDS_PASSWORD") or rds_client.generate_db_auth_token(
     DBHostname=DB_HOSTNAME,
     Port=int(DB_PORT),
     DBUsername=DB_USERNAME
@@ -60,9 +60,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'homepage',
-    'posts',
     'community',
-    'livereload',
+    'posts',
 ]
 
 MIDDLEWARE = [
@@ -82,7 +81,7 @@ ROOT_URLCONF = 'lrg.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,0 +1,26 @@
+{% extends "homepage/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3>{{ post.season }}</h3>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ post.description }}</p>
+            <div class="text-center my-3">
+                {% if post.banner %}
+                    <img src="{{ post.banner.url }}" alt="Post Banner" class="img-fluid rounded">
+                {% endif %}
+            </div>
+            <p class="text-muted">
+                {% if post.has_been_edited %}
+                    <small>This post has been edited.</small>
+                {% else %}
+                    <small>Original version.</small>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

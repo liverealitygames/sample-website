@@ -1,0 +1,30 @@
+{% extends "homepage/base.html" %}
+{% block content %} 
+{% load static %}
+<div class="container mt-5">
+    <!-- Banner -->
+    <div class="jumbotron text-center bs-primary text-white py-5">
+        <h1 class="display-4">{{ season.get_name }}</h1>
+    </div>
+
+    <!-- About -->
+    <div class="row my-5">
+        <div class="col-md-8 mx-auto text-center">
+            <h2>About The Season</h2>
+            <p>{{ season.describe }}</p>
+        </div>
+    </div>
+
+    <!-- Other Seasons -->
+    <div class="row my-5">
+        <div class="col-12 text-center">
+            <h2>Other Seasons</h2>
+        </div>
+        {% for season in season.community.season_set.all %}
+        <div class="col-md-6 text-center">
+            <a href="#" class="btn btn-outline-primary btn-lg">{{ season }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "homepage/base.html" %}
+{% block content %} 
+{% load static %}
+<div class="container mt-5">
+    <!-- Banner -->
+    <div class="jumbotron text-center bs-primary text-white py-5">
+        <h1 class="display-4">{{ community.name }}</h1>
+    </div>
+
+    <!-- About -->
+    <div class="row my-5">
+        <div class="col-md-8 mx-auto text-center">
+            <h2>About Us</h2>
+            <p>{{ community.description }}</p>
+        </div>
+    </div>
+
+    <!-- Team Section -->
+    
+    <div class="row my-5 text-center">
+        <div class="col-12">
+            <h2>Staff</h2>
+        </div>
+        {% for staff_member in community.staff.all %}
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ staff_member.icon.full_size_url }}" class="card-img-top" alt="Team Member">
+                <div class="card-body">
+                    <h5 class="card-title">{{ staff_member.display_name }}</h5>
+                    <p class="card-text">{{ staff_member.auth_source }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Past Events -->
+    <div class="row my-5">
+        <div class="col-12 text-center">
+            <h2>Past Seasons</h2>
+        </div>
+        {% for season in community.seasons %}
+        <div class="col-md-6 text-center">
+            <a href="#" class="btn btn-outline-primary btn-lg">{{ season.name }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
