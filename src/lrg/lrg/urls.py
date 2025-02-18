@@ -21,5 +21,7 @@ urlpatterns = [
     path('', include(("homepage.urls", "homepage"), namespace="homepage")),
     path('posts/', include(("posts.urls", "posts"), namespace="posts")),
     path('community/', include(("community.urls", "community"), namespace="community")),
+    path('profiles/', include(("profiles.urls", "profiles"), namespace="profiles")),
+    path('media/', include(("media.urls", "media"), namespace="media")),
     path('admin/', admin.site.urls),
 ]

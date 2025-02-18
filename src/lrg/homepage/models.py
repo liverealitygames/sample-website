@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from homepage.const import *
 from datetime import datetime, timezone
 
@@ -109,19 +108,3 @@ class Location(models.Model):
         if self.country:
             return str(self.country)
         return "N/A"
-
-# Profiles - more info than a user
-class Profile(Stamped):
-
-    account_status_choices = {choice:choice for choice in ACCOUNT_STATUSES}
-    auth_source_choices = {choice:choice for choice in AUTH_SOURCES}
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    account_status = models.CharField(choices=account_status_choices)
-    display_name = models.CharField(max_length=20, unique=True)
-    auth_source = models.CharField(choices=auth_source_choices)
-    pronouns = models.CharField(blank=True, null=True)
-    icon = models.OneToOneField(ExternalImage, on_delete=models.CASCADE, blank=True, null=True)
-
-    def __str__(self):
-        return self.display_name

@@ -27,6 +27,9 @@
     --davys-gray: #4d5061ff;
     --glaucous: #5c80bcff;
     --ash-gray: #cdd1c4ff;
+
+    --bg-primary: var(--bs-primary);
+    --bg-secondary: var(--bs-secondary);
 }
 
 /* Override Bootstrap Typography */

@@ -28,27 +28,36 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Other Media</a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Podcasts</a>
-                  <a class="dropdown-item" href="#">News</a>
-                  <a class="dropdown-item" href="#">Wiki</a>
+                  <a class="dropdown-item" href="{% url "media:podcasts" %}">Podcasts</a>
+                  <a class="dropdown-item" href="{% url "media:news" %}">News</a>
                 </div>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">About</a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">FAQ</a>
-                  <a class="dropdown-item" href="#">Contact Us</a>
-                  <a class="dropdown-item" href="#">Donate</a>
+                  <a class="dropdown-item" href="{% url "homepage:about" %}">FAQ</a>
+                  <a class="dropdown-item" href="{% url "homepage:contact" %}">Contact Us</a>
                 </div>
               </li>
             </ul>
             <ul class="navbar-nav mr-auto me-5">
+              {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">My Profile</a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url "profiles:view" user.profile.display_name %}">View</a>
+                  <a class="dropdown-item" href="{% url "profiles:edit" user.profile.display_name %}">Edit</a>
+                  <a class="dropdown-item" href="{% url "profiles:logout" %}">Logout</a>
+                </div>
+              </li>
+              {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "homepage:register" %}">Register</a>
+                    <a class="nav-link" href="{% url "profiles:register" %}">Register</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "homepage:login" %}">Login</a>
+                    <a class="nav-link" href="{% url "profiles:login" %}">Login</a>
                 </li>
+              {% endif %}
             </ul>
           </div>
         </div>
@@ -60,7 +69,7 @@
 
     <footer class="footer bg-dark text-light text-center py-3 mt-auto">
         <div class="container">
-            <p class="mb-0">&copy; 2025 Live Reality Games Demo | <a href="#" class="text-light text-decoration-none">Privacy Policy</a></p>
+            <p class="mb-0">2025 Live Reality Games (Demo)</p>
         </div>
     </footer>
 

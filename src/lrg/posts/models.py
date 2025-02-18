@@ -1,6 +1,6 @@
 from django.db import models
-from homepage.models import Profile, Editable, ExternalImage
-from community.models import Community, Season
+from homepage.models import Editable, ExternalImage
+from community.models import Season
 from posts.const import *
 
 

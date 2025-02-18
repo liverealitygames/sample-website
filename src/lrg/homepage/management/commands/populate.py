@@ -1,11 +1,10 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from faker import Faker
-from homepage.models import Profile
+from profiles.models import Profile
 from community.models import Community, Season
 from community.const import SEASON_STATUSES, GAME_FORMATS, COMMUNITY_STATUSES
 from posts.models import Post
-from homepage.const import VALID_COUNTRIES
 import random
 
 fake = Faker()
@@ -52,15 +51,15 @@ class Command(BaseCommand):
         self.stdout.write('Creating dummy seasons for each community... ', ending='')
         per_season = []
         for community in communities:
-            game_format = random.choice(GAME_FORMATS)
-            for season_number in range(random.randint(1,8)):
+            format = random.choice(GAME_FORMATS)
+            for number in range(random.randint(1,8)):
                 per_season.append(
                     Season(
                         creation_time=fake.date_time_this_month(),
                         status=random.choice(SEASON_STATUSES),
-                        season_number=season_number,
+                        number=number,
                         community=community,
-                        game_format=game_format,
+                        format=format,
                         )
                     )
                 

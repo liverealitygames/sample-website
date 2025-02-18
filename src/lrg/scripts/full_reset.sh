@@ -1,4 +1,4 @@
-rm -rf ./*/migrations
+rm -rf ./*/migrations/0*
 set -e
 
 export OWNER=lrg_demo_owners

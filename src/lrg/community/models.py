@@ -1,5 +1,6 @@
 from django.db import models
-from homepage.models import Profile, Editable, ExternalImage, Location
+from homepage.models import Editable, ExternalImage, Location
+from profiles.models import Profile
 from community.const import *
 
 # Create your models here.
@@ -32,7 +33,7 @@ class Community(Editable):
 
     community_status_choices = {choice:choice for choice in COMMUNITY_STATUSES}
 
-    name = models.CharField(default="N/A")
+    name = models.CharField(unique=True)
     description = models.TextField(blank=True, null=True)
     staff = models.ManyToManyField(Profile, related_name="communities_as_staff")
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="communities_owned")
@@ -55,25 +56,25 @@ class Season(Editable):
     game_format_choices = {choice:choice for choice in GAME_FORMATS}
     season_status_choices = {choice:choice for choice in SEASON_STATUSES}
 
+    name = models.CharField(blank=True, null=True)
+    number = models.IntegerField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     status = models.CharField(choices=season_status_choices)
     filmed = models.BooleanField(blank=True, null=True)
-    season_name = models.CharField(blank=True, null=True)
-    season_number = models.IntegerField(blank=True, null=True)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     application_link = models.CharField(blank=True, null=True)
     staff = models.ManyToManyField(Profile, related_name="seasons_as_staff")
     cast = models.ManyToManyField(Profile, related_name="seasons_as_cast")
-    game_format = models.CharField(choices=game_format_choices)
-    season_banner = models.OneToOneField(ExternalImage, on_delete=models.CASCADE, blank=True, null=True)
-    schedule = models.OneToOneField(Schedule, on_delete=models.CASCADE, null=True)
+    format = models.CharField(choices=game_format_choices)
+    banner = models.OneToOneField(ExternalImage, on_delete=models.CASCADE, blank=True, null=True)
+    schedule = models.OneToOneField(Schedule, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f"{str(self.community)} - {self.get_name()}"
     
     def get_name(self):
-        return self.season_name or self.game_format+' Season '+str(self.season_number)
+        return self.name or self.format+' Season '+str(self.number)
     
     def describe(self):
         if self.description:

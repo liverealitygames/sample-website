@@ -1,0 +1,50 @@
+{% extends "homepage/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">About Us</h2>
+
+    <!-- Owner Section -->
+    <section class="mb-4">
+        <h3>Meet the Founder</h3>
+        <p>Live Reality Games was founded by <strong>John Doe</strong>, a passionate reality competition fan who wanted to bring interactive experiences to the community.</p>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="mb-4">
+        <h3>❓ Frequently Asked Questions</h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        How can I participate in a live reality game?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can join our community and apply to various fan-run competitions hosted throughout the year.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Are these games official Survivor/Big Brother events?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        No, these games are fan-run and unaffiliated with CBS, NBC, or other networks. They are created by fans for entertainment purposes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wikia Section -->
+    <section class="mb-4">
+        <h3>📚 Community Wiki</h3>
+        <p>We maintain a <a href="https://www.example.com/wiki" target="_blank">Wikia</a> where you can read about past games, participants, and more.</p>
+    </section>
+</div>
+{% endblock %}

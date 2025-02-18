@@ -1,0 +1,47 @@
+{% extends "homepage/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Contact Us</h2>
+    <p>Have questions or feedback? Get in touch with us by filling out the form below.</p>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <form method="post" action="{% url 'homepage:contact' %}">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Subject</label>
+                    <input type="text" class="form-control" id="subject" name="subject" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+
+            <!-- Donate Section -->
+            <div class="text-center mt-5">
+                <h4 class="mb-3">Support Our Community</h4>
+                <p>Your donation helps keep Live Reality Games running! Click below to contribute.</p>
+                <a href="https://www.paypal.com/donate/example" target="_blank" class="btn btn-success">
+                    ❤️ Donate Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

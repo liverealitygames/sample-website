@@ -1,0 +1,42 @@
+{% extends "homepage/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>{{ profile.full_name }}</h3>
+                    <p class="mb-0">{{ profile.pronouns }}</p>
+                </div>
+                <div class="card-body">
+                    <h5>Profile Information</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Pronouns:</strong> {{ profile.pronouns }}</li>
+                        <li class="list-group-item"><strong>Communities Staffing:</strong>{{ profile.communities_as_staff }}</li>
+                        <li class="list-group-item"><strong>Casts Joined:</strong> {{ profile.seasons_as_cast }}</li>
+                    </ul>
+
+                    <div class="mt-4 text-center">
+                        <a href="{% url 'profiles:view' profile.display_name %}" class="btn btn-outline-primary">Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional User Activities Section -->
+            <div class="mt-5">
+                <h5>Community Involvement</h5>
+                <div class="list-group">
+                    {% for community in profile.communities %}
+                        <a href="{% url 'community:community_info' community.id %}" class="list-group-item list-group-item-action">
+                            {{ community.name }} ({{ community.role }})
+                        </a>
+                    {% empty %}
+                        <p class="text-muted">Not currently involved in any communities.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

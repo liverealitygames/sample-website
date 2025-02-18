@@ -4,6 +4,7 @@ COMMUNITY_STATUSES = [
     "Hiatus",
     "Defunct",
     "Unknown",
+    "Under Review",
 ]
 
 GAME_FORMATS = [
@@ -22,4 +23,5 @@ SEASON_STATUSES = [
     "Casting",
     "Running",
     "Finished",
+    "Under Review",
 ]

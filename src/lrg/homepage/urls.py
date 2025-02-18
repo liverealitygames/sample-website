@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     # ex: /polls/
     path("", views.home, name="index"),
-    path("login", views.login, name="login"),
-    path("register", views.register, name="register"),
+    path("about", views.about, name="about"),
+    path("contact", views.contact, name="contact"),
     path('get-cities', views.get_cities, name='get_cities'),
 ]

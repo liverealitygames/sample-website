@@ -1,0 +1,124 @@
+{% extends "homepage/base.html" %}
+{% block content %}
+{% load static %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 600px;">
+        <h2 class="text-center mb-4">Register your LRG</h2>
+
+        <form action="{% url "community:create_season" %}" method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <select class="form-select w-auto" id="communitySelected">
+                    <option selected disabled>Select Community</option>
+                    {% for community in user.profile.communities_owned %}
+                    <option value="{{ community.id }}">{{ community.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="seasonName" class="form-label">Season Name</label>
+                <input type="text" class="form-control" id="seasonName" placeholder="Ex: Season...">
+            </div>
+
+            <div class="mb-3">
+                <label for="seasonNumber" class="form-label">Season Number</label>
+                <input type="number" class="form-control" id="seasonNumber" placeholder="Ex: Season...">
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="fuzzyStartDate" name="fuzzyStartDate">
+                    <label class="form-check-label" for="fuzzyStartDate">Do you have a firm start date?</label>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="startDate" class="form-label">When do you expect the season to start?</label>
+                <input type="date" class="form-control" id="startDate">
+            </div>
+
+            <div class="mb-3">
+                <label for="gameLength" class="form-label">How many days will it last?</label>
+                <input type="number" class="form-control" id="gameLength" placeholder="1">
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Describe this season..." required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Season Banner</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            </div>
+
+            {% comment %} Country {% endcomment %}
+            <div class="mb-3">
+                <select class="form-select w-auto" id="countrySelected">
+                    <option selected disabled>Country</option>
+                    {% for country in countries %}
+                    <option value="{{ country.id }}">{{ country.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="text" id="citySelected" class="form-control w-auto" placeholder="city...">
+            </div>
+
+            {% comment %} Format {% endcomment %}
+            <div class="mb-3">
+                <select class="form-select w-auto" id="formatSeleted">
+                    <option selected disabled>Game Format</option>
+                    {% for format in formats %}
+                    <option value="{{ format }}">{{ format }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="filmed" name="filmed">
+                    <label class="form-check-label" for="filmed">Filmed</label>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="applicationLink" class="form-label">Application Link</label>
+                <input type="url" class="form-control" id="applicationLink" placeholder="Link to the Google Form, etc...">
+            </div>
+
+            {% include "community/contact.html" %}
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">Create Season</button>
+        </form>
+    </div>
+</div>
+
+        <!-- jQuery for AJAX -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function(){
+            // Load cities when country is selected
+            $("#country-select").change(function(){
+                let countryId = $(this).val();
+
+                $.ajax({
+                    url: "{% url 'homepage:get_cities' %}",
+                    data: {'country_id': countryId},
+                    dataType: 'json',
+                    success: function(data) {
+                        $("#city-search").autocomplete({
+                            source: data.cities
+                        });
+                    }
+                });
+            });
+        });
+        </script>
+        
+        <!-- jQuery UI for Autocomplete -->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+{% endblock %}

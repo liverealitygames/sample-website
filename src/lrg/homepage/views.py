@@ -1,9 +1,8 @@
 from django.shortcuts import render
-from django.template import RequestContext
 from django.http import JsonResponse
-from community.const import GAME_FORMATS
-from homepage.models import Location, Country, City, Region
+from homepage.models import Country, City
 
+# Main Pages
 def home(request):
     return render(request, 'homepage/index.html', context={
         "countries": list(Country.objects.values("id", "name")),
@@ -12,11 +11,17 @@ def home(request):
         ]
     })
 
-def login(request):
-    return render(request, 'homepage/login.html')
-
 def register(request):
     return render(request, 'homepage/register.html')
+
+def about(request):
+    return render(request, 'homepage/about.html')
+
+def contact(request):
+    return render(request, 'homepage/contact.html')
+
+
+# AJAX
 
 def get_cities(request):
     country_id = request.GET.get("country_id")
