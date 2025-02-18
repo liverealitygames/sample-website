@@ -6,6 +6,7 @@ from community.models import Community, Season
 from community.const import SEASON_STATUSES, GAME_FORMATS, COMMUNITY_STATUSES
 from posts.models import Post
 import random
+import os
 
 fake = Faker()
 
@@ -24,10 +25,16 @@ class Command(BaseCommand):
         fake_profiles = [Profile.objects.create(
                 user=user,
                 account_status="Active",
-                display_name=user.username,
                 auth_source="Internal",
                 creation_time=fake.date_time_this_month(),
             ) for user in fake_users]
+        
+        superuser = User.objects.get(username=os.environ.get("DJANGO_SUPERUSER_USERNAME"))
+        Profile.objects.create(
+            user=superuser,
+            account_status="Active",
+            auth_source="Internal",
+        )
         self.stdout.write(self.style.SUCCESS('OK'))
         
         self.stdout.write('Creating dummy communities... ', ending='')

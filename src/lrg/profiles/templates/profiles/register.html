@@ -8,8 +8,8 @@
         <form action="{% url "profiles:register" %}" method="post">
             {% csrf_token %}
             <div class="mb-2">
-                <label for="displayName" class="form-label">Display Name</label>
-                <input type="text" class="form-control" name="displayName" id="displayName" placeholder="Enter a display name" required>
+                <label for="displayName" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username" placeholder="Enter a username" required>
             </div>
             
             {% comment %} <div class="mb-2">

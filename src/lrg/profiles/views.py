@@ -7,25 +7,30 @@ from django.contrib.auth.decorators import login_required
 import logging
 
 # Create your views here.
-def view(request, display_name):
-    profile = get_object_or_404(Profile, display_name=display_name)
-    return render(request, 'profiles/view.html', context={"profile":profile})
+def view(request, username):
+    user: User = get_object_or_404(User, username=username)
+    return render(request, 'profiles/view.html', context={"profile":user.profile})
 
 @login_required
-def edit(request, display_name):
-    profile = get_object_or_404(Profile, display_name=display_name)
-    return render(request, 'profiles/edit.html', context={"profile":profile})
+def edit(request):
+    if request.method == "POST":
+        pronouns = request.POST.get("pronouns")
+        if pronouns:
+            request.user.profile.pronouns = pronouns
+            request.user.profile.save()
+            messages.success(request, "Pronouns updated successfully")
+    return render(request, 'profiles/edit.html', context={"profile":request.user.profile})
 
 def register(request):
     if request.method == "POST":
-        chosen_name = request.POST.get("displayName")
+        username = request.POST.get("username")
         password = request.POST.get("password")
-        if User.objects.filter(username=chosen_name).exists():
-            messages.error(request, f"Display name '{chosen_name}' is already in use")
+        if User.objects.filter(username=username).exists():
+            messages.error(request, f"Username '{username}' is already in use")
             return redirect("profiles:register")
-        user = User.objects.create_user(username=chosen_name, password=password)
+        user = User.objects.create_user(username=username, password=password)
         # TODO: Get images, resize, etc.
-        Profile.objects.create(user=user, account_status="Under Review", display_name=chosen_name)
+        Profile.objects.create(user=user, account_status="Under Review")
         messages.success(request, "Account created successfully")
         return redirect("profiles:login")
     return render(request, "profiles/register.html")

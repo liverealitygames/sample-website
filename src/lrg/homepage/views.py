@@ -11,15 +11,11 @@ def home(request):
         ]
     })
 
-def register(request):
-    return render(request, 'homepage/register.html')
-
 def about(request):
     return render(request, 'homepage/about.html')
 
 def contact(request):
     return render(request, 'homepage/contact.html')
-
 
 # AJAX
 

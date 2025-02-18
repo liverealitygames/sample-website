@@ -16,9 +16,9 @@ def browse(request):
 def create_community(request):
     if request.method == "POST":
         data = {
-            "name": request.POST("communityName"),
-            "description": request.POST("discussion"),
-            "owner": request.user,
+            "name": request.POST.get("communityName"),
+            "description": request.POST.get("discussion"),
+            "owner": request.user.profile,
             "status": "Under Review",
             }
 
@@ -27,38 +27,38 @@ def create_community(request):
         try:
             community.full_clean()  # Run validation
             community.save()  # Save if valid
-            messages.success(request, "Account created successfully")
-            return redirect("login")
+            messages.success(request, "Community created successfully")
+            return redirect("homepage:index")
         except ValidationError as e:
             messages.error(request, f"Error creating community. {e}")
 
-    return render(request, "community/create.html")
+    return render(request, "community/create_community.html")
 
 @login_required
 def create_season(request):
     if request.method == "POST":
 
-        community = get_object_or_404(Community, request.POST("communitySelected"))
-        location = get_object_or_404(Location, country=request.POST("countrySelected"), city=request.POST("citySelected"))
+        community = get_object_or_404(Community, request.POST.get("communitySelected"))
+        location = get_object_or_404(Location, country=request.POST.get("countrySelected"), city=request.POST.get("citySelected"))
 
         schedule_data = {
-            "game_length_range_exact": request.POST("gameLength"),
-            ("start_time_specific" if request.POST("fuzzyStartDate") else "start_time_earliest"): request.POST("startDate"),
+            "game_length_range_exact": request.POST.get("gameLength"),
+            ("start_time_specific" if request.POST.get("fuzzyStartDate") else "start_time_earliest"): request.POST.get("startDate"),
         }
 
         schedule = Schedule(**schedule_data)
 
         season_data = {
-            "name": request.POST("seasonName"),
-            "number": request.POST("seasonNumber"),
-            "description": request.POST("discussion"),
+            "name": request.POST.get("seasonName"),
+            "number": request.POST.get("seasonNumber"),
+            "description": request.POST.get("discussion"),
             "status": "Under Review",
-            "filmed": request.POST("filmed", False),
+            "filmed": request.POST.get("filmed", False),
             "community":community,
             "status": "Under Review",
             "location":location,
-            "application_link": request.POST("applicationLink", ""),
-            "format": request.POST("formatSelected"),
+            "application_link": request.POST.get("applicationLink", ""),
+            "format": request.POST.get("formatSelected"),
         }
 
         season = Season(**season_data)  # Initialize the object
@@ -73,7 +73,7 @@ def create_season(request):
         except ValidationError as e:
             messages.error(request, f"Error creating community. {e}")
 
-    return render(request, "community/create.html", context={
+    return render(request, "community/create_season.html", context={
         "countries": list(Country.objects.values("id", "name")),
         "formats": GAME_FORMATS,
         }

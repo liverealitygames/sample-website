@@ -6,20 +6,23 @@
         <div class="col-md-8 mx-auto">
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
-                    <h3>{{ profile.full_name }}</h3>
+                    <h3>{{ profile.user.username }}</h3>
                     <p class="mb-0">{{ profile.pronouns }}</p>
                 </div>
                 <div class="card-body">
                     <h5>Profile Information</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Pronouns:</strong> {{ profile.pronouns }}</li>
-                        <li class="list-group-item"><strong>Communities Staffing:</strong>{{ profile.communities_as_staff }}</li>
-                        <li class="list-group-item"><strong>Casts Joined:</strong> {{ profile.seasons_as_cast }}</li>
+                        <li class="list-group-item"><strong>Communities Owned:</strong> {% for community in profile.communities_owned.all %} <a href="{% url "community:community_info" community.id %}">{{community.name}}</a> {% endfor %}</li>
+                        {% comment %} <li class="list-group-item"><strong>Communities Staffing:</strong>{{ profile.communities_as_staff.all }}</li> {% endcomment %}
+                        {% comment %} <li class="list-group-item"><strong>Casts Joined:</strong> {{ profile.seasons_as_cast.all }}</li> {% endcomment %}
                     </ul>
 
+                    {% if profile.user == user %}
                     <div class="mt-4 text-center">
-                        <a href="{% url 'profiles:view' profile.display_name %}" class="btn btn-outline-primary">Edit Profile</a>
+                        <a href="{% url 'profiles:view' profile.user.username %}" class="btn btn-outline-primary">Edit Profile</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
 

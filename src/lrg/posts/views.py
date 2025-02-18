@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from community.const import GAME_FORMATS
 from posts.models import Post
 
-
 def browse(request):
     posts = Post.objects.filter(season__status="Casting")
     return render(request, "posts/browse.html", context={"posts":posts})

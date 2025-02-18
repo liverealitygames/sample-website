@@ -5,16 +5,16 @@
 
 
 
-/* Override Bootstrap Colors */
+/* Override Bootstrap Colors
 :root {
     --bs-primary: #586F7C;
     --bs-secondary: #B8DBD9;
-    /* --bs-success: #28a745;
+    --bs-success: #28a745;
     --bs-info: #17a2b8;
     --bs-warning: #ffc107;
     --bs-danger: #dc3545;
     --bs-light: #f8f9fa;
-    --bs-dark: #343a40; */
+    --bs-dark: #343a40;
     --black: #000000ff;
     --paynes-gray: #586f7cff;
     --light-blue: #b8dbd9ff;
@@ -30,29 +30,34 @@
 
     --bg-primary: var(--bs-primary);
     --bg-secondary: var(--bs-secondary);
-}
+} */
 
 /* Override Bootstrap Typography */
 body {
     font-family: 'Manrope', sans-serif !important;
-    color: var(--black);
-    background-color: var(--bs-secondary) !important;
+    /* color: var(--black);
+    background-color: var(--bs-secondary) !important; */
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif !important;
 }
 
-/* Override Navbar Background Color */
-.navbar {
-    background-color: var(--bs-primary) !important; /* Change this to your preferred navbar color */
+h2, h3 {
+    text-align: center;
+    font-weight: bold;
 }
 
+/* Override Navbar Background Color */
+/* .navbar {
+    background-color: var(--bs-primary) !important;
+} */
+
 /* Override Navbar Text Color */
-.navbar .navbar-brand,
+/* .navbar .navbar-brand,
 .navbar .nav-link {
     color: var(--ghost-white) !important;
-}
+} */
 
 .navbar .navbar-brand {
     font-size: 3rem !important; /* Adjust as needed */
@@ -65,11 +70,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Navbar Link Hover Color */
-.navbar .nav-link:hover {
+/* .navbar .nav-link:hover {
     color: var(--light-blue) !important;
-}
+} */
 
-/* Dropdown Menu Background and Text */
+/* Dropdown Menu Background and Text
 .navbar .dropdown-menu {
     background-color: var(--black) !important;
 }
@@ -80,16 +85,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar .dropdown-item:hover {
     background-color: var(--paynes-gray) !important;
-}
+} */
 
-/* Footer Background and Text */
+/* Footer Background and Text
 .footer {
-    background-color: var(--black) !important; /* Adjust as needed */
+    background-color: var(--black) !important;
     color: #ffffff !important;
     letter-spacing: .25rem;
-}
+} */
 
-.jumbotron {
+/* .jumbotron {
     background-color: var(--dark-spring-green);
     color: var(--light-blue);
 }
@@ -98,4 +103,8 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--viridian);
     color: var(--light-blue);
     outline-color: var(--dark-spring-green);
+} */
+
+.container {
+    margin: auto;
 }

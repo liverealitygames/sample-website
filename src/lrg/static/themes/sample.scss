@@ -1,0 +1,44 @@
+// Override Bootstrap variables here
+// Before importing Bootstrap
+
+// Colors
+$primary: #2F4550;
+$secondary: #B8DBD9;
+// $success: #28a745;
+// $info: #17a2b8;
+// $warning: #ffc107;
+// $danger: #dc3545;
+$light: #F4F4F9;
+$dark: #02020A;
+
+$body-bg: #B8DBD9;
+$body-color: #2F4550;
+
+$dropdown-bg: #02020A;
+$dropdown-link-color: #F4F4F9;
+$dropdown-link-hover-color: #02020A;
+$navbar-dark-bg: #02020A;
+
+$accordion-bg: #F4F4F9;
+
+// Spacing
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: ($spacer * 0.25),
+  2: ($spacer * 0.5),
+  3: ($spacer * 1),
+  4: ($spacer * 1.5),
+  5: ($spacer * 3)
+);
+
+// Typography
+$font-family-sans-serif: 'Manrope', sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+
+// Buttons
+$btn-border-radius: 0.25rem;
+
+// Import Bootstrap
+@import "../bootstrap/scss/bootstrap";

@@ -12,7 +12,8 @@ services:
       - 8080:8080
     depends_on:
       - db
-    entrypoint: ["gunicorn", "lrg.wsgi:application", "--bind", "0.0.0.0:8080"]
+    # entrypoint: ["gunicorn", "lrg.wsgi:application", "--bind", "0.0.0.0:8080"]
+    entrypoint: ["python", "manage.py", "runserver","0.0.0.0:8080"]
   db:
     image: postgres
     container_name: postgres_local

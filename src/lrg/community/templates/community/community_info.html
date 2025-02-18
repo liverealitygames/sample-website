@@ -3,7 +3,7 @@
 {% load static %}
 <div class="container mt-5">
     <!-- Banner -->
-    <div class="jumbotron text-center bs-primary text-white py-5">
+    <div class="jumbotron text-center bg-dark text-white py-5">
         <h1 class="display-4">{{ community.name }}</h1>
     </div>
 
@@ -24,10 +24,10 @@
         {% for staff_member in community.staff.all %}
         <div class="col-md-4">
             <div class="card">
-                <img src="{{ staff_member.icon.full_size_url }}" class="card-img-top" alt="Team Member">
+                <img src="https://picsum.photos/400/200" class="card-img-top" alt="Team Member">
                 <div class="card-body">
-                    <h5 class="card-title">{{ staff_member.display_name }}</h5>
-                    <p class="card-text">{{ staff_member.auth_source }}</p>
+                    <h5 class="card-title">{{ staff_member.user.username }}</h5>
+                    <p class="card-text">{{ staff_member.pronouns }}</p>
                 </div>
             </div>
         </div>

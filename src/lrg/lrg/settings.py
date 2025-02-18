@@ -59,11 +59,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
     'homepage',
     'profiles',
     'community',
     'posts',
     'media',
+    'livereload',
 ]
 
 MIDDLEWARE = [
@@ -158,6 +160,19 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+# SCSS
+# https://www.accordbox.com/blog/how-use-scss-sass-your-django-project-python-way/
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+]
+
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
 
 STORAGES = {
     "default": {
