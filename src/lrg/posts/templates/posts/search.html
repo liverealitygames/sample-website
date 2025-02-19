@@ -5,15 +5,16 @@
 <div id="home" class="section text-center mt-5 px-3" style="max-width: 800px; margin: auto;">
     <h2>Search For Live Reality Games</h2>
     
-    <form class="d-flex flex-column align-items-center mt-3 mb-3">
+    <form class="d-flex flex-column align-items-center mt-3 mb-3" method="post">
+        {% csrf_token %}
         <div class="input-group mb-2" style="max-width: 600px;">
-            <input class="form-control" type="search" placeholder="Search">
+            <input class="form-control" type="search" placeholder="Search for LRGs..." id="query" name="query">
             <button class="btn btn-secondary" type="submit">Search</button>
         </div>
 
         <div class="d-flex flex-wrap justify-content-center gap-2" style="max-width: 800px; margin: auto;">
             <!-- Country Dropdown -->
-            <select class="form-select w-auto" id="country-select">
+            <select class="form-select w-auto" id="countrySelected">
                 <option selected disabled>Country</option>
                 {% for country in countries %}
                 <option value="{{ country.id }}">{{ country.name }}</option>
@@ -26,7 +27,7 @@
             </select>
          {% endcomment %}
             <!-- City Autocomplete -->
-            <input type="text" id="city-search" class="form-control w-auto" placeholder="Search for a city">
+            <input type="text" id="citySelected" class="form-control w-auto" placeholder="Search for a city">
         </div>
         
         <!-- Checkboxes -->
@@ -40,6 +41,8 @@
         </div>
     </form>
 </div>
+
+{% include "posts/post_tiles.html" %}
         
         <!-- jQuery for AJAX -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

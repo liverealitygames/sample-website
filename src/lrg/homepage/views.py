@@ -1,15 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from homepage.models import Country, City
 
 # Main Pages
 def home(request):
-    return render(request, 'homepage/index.html', context={
-        "countries": list(Country.objects.values("id", "name")),
-        "binary_filters": [
-            ("Filmed only", "filmed"),
-        ]
-    })
+    return redirect("posts:search")
 
 def about(request):
     return render(request, 'homepage/about.html')

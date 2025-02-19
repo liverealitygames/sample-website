@@ -1,0 +1,158 @@
+
+/*------------------------------------
+- COLOR saffron
+------------------------------------*/
+
+$saffron_t1: #e8c547;
+$saffron_t2: #e0b51c;
+$saffron_t3: #f9f1d3;
+$saffron_t4: #fcf8ea;
+$saffron_t5: #a08114;
+$saffron_t6: #d2aa1a;
+$saffron_t7: #e4ba27;
+$saffron_t8: #735d0e;
+$saffron_t9: #fefefc;
+
+$saffron_shadow: rgba(232, 197, 71, 0.5);
+$saffron_text_color_dark_bright: #212529;
+
+
+.alert-saffron {
+  color: $saffron_t5;
+  background-color: $saffron_t9;
+  border-color: $saffron_t4;
+}
+
+.alert-saffron hr {
+  border-top-color: $saffron_t3;
+}
+
+.alert-saffron .alert-link {
+  color: $saffron_t8;
+}
+
+.badge-saffron {
+  color: $saffron_text_color_dark_bright;
+  background-color: $saffron_t1;
+}
+
+.badge-saffron[href]:hover, .badge-saffron[href]:focus {
+  color: $saffron_text_color_dark_bright;
+  background-color: $saffron_t2;
+}
+
+.bg-saffron {
+  background-color: $saffron_t1 !important;
+}
+
+a.bg-saffron:hover, a.bg-saffron:focus,
+button.bg-saffron:hover,
+button.bg-saffron:focus {
+  background-color: $saffron_t2 !important;
+}
+
+.border-saffron {
+  border-color: $saffron_t1 !important;
+}
+
+.btn-saffron {
+  color: $saffron_text_color_dark_bright;
+  background-color: $saffron_t1;
+  border-color: $saffron_t1;
+}
+
+.btn-saffron:hover {
+  color: $saffron_text_color_dark_bright;
+  background-color: $saffron_t7;
+  border-color: $saffron_t2;
+}
+
+.btn-saffron:focus, .btn-saffron.focus {
+  box-shadow: 0 0 0 0.2rem $saffron_shadow;
+}
+
+.btn-saffron.disabled, .btn-saffron:disabled {
+  color: $saffron_text_color_dark_bright;
+  background-color: $saffron_t1;
+  border-color: $saffron_t1;
+}
+
+.btn-saffron:not(:disabled):not(.disabled):active, .btn-saffron:not(:disabled):not(.disabled).active, .show > .btn-saffron.dropdown-toggle {
+  color: $saffron_text_color_dark_bright;
+  background-color: $saffron_t2;
+  border-color: $saffron_t6;
+}
+
+.btn-saffron:not(:disabled):not(.disabled):active:focus, .btn-saffron:not(:disabled):not(.disabled).active:focus, .show > .btn-saffron.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem $saffron_shadow;
+}
+
+.btn-outline-saffron {
+  color: $saffron_t1;
+  background-color: transparent;
+  border-color: $saffron_t1;
+}
+
+.btn-outline-saffron:hover {
+  color: $saffron_text_color_dark_bright;
+  background-color: $saffron_t1;
+  border-color: $saffron_t1;
+}
+
+.btn-outline-saffron:focus, .btn-outline-saffron.focus {
+  box-shadow: 0 0 0 0.2rem $saffron_shadow;
+}
+
+.btn-outline-saffron.disabled, .btn-outline-saffron:disabled {
+  color: $saffron_t1;
+  background-color: transparent;
+}
+
+.btn-outline-saffron:not(:disabled):not(.disabled):active, .btn-outline-saffron:not(:disabled):not(.disabled).active, .show > .btn-outline-saffron.dropdown-toggle {
+  color: $saffron_text_color_dark_bright;
+  background-color: $saffron_t1;
+  border-color: $saffron_t1;
+}
+
+.btn-outline-saffron:not(:disabled):not(.disabled):active:focus, .btn-outline-saffron:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-saffron.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem $saffron_shadow;
+}
+
+.list-group-item-saffron {
+  color: $saffron_t5;
+  background-color: $saffron_t4;
+}
+
+.list-group-item-saffron.list-group-item-action:hover, .list-group-item-saffron.list-group-item-action:focus {
+  color: $saffron_t5;
+  background-color: $saffron_t3;
+}
+
+.list-group-item-saffron.list-group-item-action.active {
+  color: $saffron_text_color_dark_bright;
+  background-color: $saffron_t5;
+  border-color: $saffron_t5;
+}
+
+.table-saffron,
+.table-saffron > th,
+.table-saffron > td {
+  background-color: $saffron_t4;
+}
+
+.table-hover .table-saffron:hover {
+  background-color: $saffron_t3;
+}
+
+.table-hover .table-saffron:hover > td,
+.table-hover .table-saffron:hover > th {
+  background-color: $saffron_t3;
+}
+
+.text-saffron {
+  color: $saffron_t1 !important;
+}
+
+a.text-saffron:hover, a.text-saffron:focus {
+  color: $saffron_t2 !important;
+}

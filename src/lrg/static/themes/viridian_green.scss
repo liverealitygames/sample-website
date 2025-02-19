@@ -1,0 +1,161 @@
+
+/*------------------------------------
+- COLOR viridian-green
+------------------------------------*/
+
+$viridian_green_t1: #04724d;
+$viridian_green_t2: #02402b;
+$viridian_green_t3: #1df7ad;
+$viridian_green_t4: #35f7b6;
+$viridian_green_t5: #000000;
+$viridian_green_t6: #013121;
+$viridian_green_t7: #024f35;
+$viridian_green_t8: #000000;
+$viridian_green_t9: #49f8bd;
+
+$viridian_green_shadow: rgba(4, 114, 77, 0.5);
+$viridian_green_text_color_dark_bright: #fff;
+
+
+.alert-viridian-green {
+  color: $viridian_green_t5;
+  background-color: $viridian_green_t9;
+  border-color: $viridian_green_t4;
+}
+
+.alert-viridian-green hr {
+  border-top-color: $viridian_green_t3;
+}
+
+.alert-viridian-green .alert-link {
+  color: $viridian_green_t8;
+}
+
+.badge-viridian-green {
+  color: $viridian_green_text_color_dark_bright;
+  background-color: $viridian_green_t1;
+}
+
+.badge-viridian-green[href]:hover, .badge-viridian-green[href]:focus {
+  color: $viridian_green_text_color_dark_bright;
+  background-color: $viridian_green_t2;
+}
+
+.bg-viridian-green {
+  background-color: $viridian_green_t1 !important;
+}
+
+a.bg-viridian-green:hover, a.bg-viridian-green:focus,
+button.bg-viridian-green:hover,
+button.bg-viridian-green:focus {
+  background-color: $viridian_green_t2 !important;
+}
+
+.border-viridian-green {
+  border-color: $viridian_green_t1 !important;
+}
+
+.btn-viridian-green {
+  color: $viridian_green_text_color_dark_bright;
+  background-color: $viridian_green_t1;
+  border-color: $viridian_green_t1;
+}
+
+.btn-viridian-green:hover {
+  color: $viridian_green_text_color_dark_bright;
+  background-color: $viridian_green_t7;
+  border-color: $viridian_green_t2;
+}
+
+.btn-viridian-green:focus, .btn-viridian-green.focus {
+  box-shadow: 0 0 0 0.2rem $viridian_green_shadow;
+}
+
+.btn-viridian-green.disabled, .btn-viridian-green:disabled {
+  color: $viridian_green_text_color_dark_bright;
+  background-color: $viridian_green_t1;
+  border-color: $viridian_green_t1;
+}
+
+.btn-viridian-green:not(:disabled):not(.disabled):active, .btn-viridian-green:not(:disabled):not(.disabled).active, .show > .btn-viridian-green.dropdown-toggle {
+  color: $viridian_green_text_color_dark_bright;
+  background-color: $viridian_green_t2;
+  border-color: $viridian_green_t6;
+}
+
+.btn-viridian-green:not(:disabled):not(.disabled):active:focus, .btn-viridian-green:not(:disabled):not(.disabled).active:focus, .show > .btn-viridian-green.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem $viridian_green_shadow;
+}
+
+.btn-outline-viridian-green {
+  color: $viridian_green_t1;
+  background-color: transparent;
+  border-color: $viridian_green_t1;
+}
+
+.btn-outline-viridian-green:hover {
+  color: $viridian_green_text_color_dark_bright;
+  background-color: $viridian_green_t1;
+  border-color: $viridian_green_t1;
+}
+
+.btn-outline-viridian-green:focus, .btn-outline-viridian-green.focus {
+  box-shadow: 0 0 0 0.2rem $viridian_green_shadow;
+}
+
+.btn-outline-viridian-green.disabled, .btn-outline-viridian-green:disabled {
+  color: $viridian_green_t1;
+  background-color: transparent;
+}
+
+.btn-outline-viridian-green:not(:disabled):not(.disabled):active, .btn-outline-viridian-green:not(:disabled):not(.disabled).active, .show > .btn-outline-viridian-green.dropdown-toggle {
+  color: $viridian_green_text_color_dark_bright;
+  background-color: $viridian_green_t1;
+  border-color: $viridian_green_t1;
+}
+
+.btn-outline-viridian-green:not(:disabled):not(.disabled):active:focus, .btn-outline-viridian-green:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-viridian-green.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem $viridian_green_shadow;
+}
+
+.list-group-item-viridian-green {
+  color: $viridian_green_t5;
+  background-color: $viridian_green_t4;
+}
+
+.list-group-item-viridian-green.list-group-item-action:hover, .list-group-item-viridian-green.list-group-item-action:focus {
+  color: $viridian_green_t5;
+  background-color: $viridian_green_t3;
+}
+
+.list-group-item-viridian-green.list-group-item-action.active {
+  color: $viridian_green_text_color_dark_bright;
+  background-color: $viridian_green_t5;
+  border-color: $viridian_green_t5;
+}
+
+.table-viridian-green,
+.table-viridian-green > th,
+.table-viridian-green > td {
+  background-color: $viridian_green_t4;
+}
+
+.table-hover .table-viridian-green:hover {
+  background-color: $viridian_green_t3;
+}
+
+.table-hover .table-viridian-green:hover > td,
+.table-hover .table-viridian-green:hover > th {
+  background-color: $viridian_green_t3;
+}
+
+.text-viridian-green {
+  color: $viridian_green_t1 !important;
+}
+
+a.text-viridian-green:hover, a.text-viridian-green:focus {
+  color: $viridian_green_t2 !important;
+}
+
+// Import Bootstrap
+@import "../bootstrap/scss/bootstrap";

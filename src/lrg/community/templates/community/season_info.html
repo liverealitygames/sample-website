@@ -15,10 +15,12 @@
         </div>
     </div>
 
+
+
     <!-- Other Seasons -->
     <div class="row my-5">
         <div class="col-12 text-center">
-            <h2>Other Seasons</h2>
+            <h2>Other Seasons for {{ season.community.name }}</h2>
         </div>
         {% for season in season.community.season_set.all %}
         <div class="col-md-6 text-center">

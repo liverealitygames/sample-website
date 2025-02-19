@@ -1,0 +1,102 @@
+<div class="container mt-4">
+    <div id="post-container" class="row g-4"> 
+        <!-- Posts will be inserted here dynamically -->
+    </div>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4" id="pagination-controls">
+            <!-- Pagination buttons will be inserted dynamically -->
+        </ul>
+    </nav>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const posts = [
+            {% for post in posts %}
+            {
+                season_name: "{{ post.season }}",
+                season_number: "{{ post.season.season_number }}",
+                start_date: "{{ post.season.start_date|default:'Start Date Unknown' }}",
+                image_url: "https://picsum.photos/400/200",
+                application_link: "{{ post.season.application_link }}",
+                community_info_link: "{% url 'community:community_info' post.season.community.id %}",
+                age: "{{ post.get_age }}",
+                location: "{{ post.season.location }}",
+                season_link: "{% url "community:season_info" post.season.community.id post.season.id %}"
+            },
+            {% endfor %}
+        ];
+
+        const postsPerPage = 6; // Change as needed
+        let currentPage = 1;
+
+        function displayPosts() {
+            const postContainer = document.getElementById("post-container");
+            postContainer.innerHTML = "";
+
+            const start = (currentPage - 1) * postsPerPage;
+            const end = start + postsPerPage;
+            const paginatedPosts = posts.slice(start, end);
+
+            paginatedPosts.forEach(post => {
+                const postHtml = `
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <h3 class="card-header text-center"><a href=${post.season_link}>${post.season_name}</a></h3>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-middle">
+                                    <h5 class="card-title">Season ${post.season_number}</h5>
+                                    <h6 class="card-subtitle text-muted">${post.start_date}</h6>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <img src="${post.image_url}" class="d-block user-select-none" width="100%" height="200" alt="Random image">
+                            </a>
+                            <div class="card-body d-flex justify-content-between">
+                                <a href="${post.application_link}" class="card-link text-secondary">Apply Here</a>
+                                <a href="${post.community_info_link}" class="card-link text-secondary">Community Info</a>
+                            </div>
+                            <div class="card-footer text-muted d-flex justify-content-between">
+                                <span>Posted ${post.age} ago</span>
+                                <span>${post.location}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                postContainer.innerHTML += postHtml;
+            });
+        }
+
+        function setupPagination() {
+            const paginationControls = document.getElementById("pagination-controls");
+            paginationControls.innerHTML = "";
+
+            const totalPages = Math.ceil(posts.length / postsPerPage);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageItem = document.createElement("li");
+                pageItem.classList.add("page-item");
+                if (i === currentPage) pageItem.classList.add("active");
+
+                const pageLink = document.createElement("a");
+                pageLink.classList.add("page-link");
+                pageLink.href = "#";
+                pageLink.innerText = i;
+                pageLink.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    currentPage = i;
+                    displayPosts();
+                    setupPagination();
+                });
+
+                pageItem.appendChild(pageLink);
+                paginationControls.appendChild(pageItem);
+            }
+        }
+
+        displayPosts();
+        setupPagination();
+    });
+</script>

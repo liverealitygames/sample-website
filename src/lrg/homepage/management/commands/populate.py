@@ -2,13 +2,20 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from faker import Faker
 from profiles.models import Profile
-from community.models import Community, Season
+from community.models import Community, Season, Schedule
+from homepage.models import Location
 from community.const import SEASON_STATUSES, GAME_FORMATS, COMMUNITY_STATUSES
 from posts.models import Post
+from media.models import Podcast, Article
 import random
 import os
 
 fake = Faker()
+
+def fake_org_name():
+    prefix = fake.first_name()
+    suffix = random.choice(["-Vivor", "'s Big Brother", "'s The Challenge", "'s Survivor", "'s Reality Games", " Does RGs", " Reality Gaming", " LRGs", " RG Hub"])
+    return prefix+suffix
 
 class Command(BaseCommand):
     help = 'Populate the database with fake data'
@@ -17,6 +24,7 @@ class Command(BaseCommand):
 
         help = 'Populate the database with fake data'
 
+        # Users and Profiles
         self.stdout.write('Creating dummy users... ', ending='')
         fake_users = [User.objects.create_user(username = fake.profile()["username"]) for _ in range(20)]
         self.stdout.write(self.style.SUCCESS('OK'))
@@ -37,11 +45,12 @@ class Command(BaseCommand):
         )
         self.stdout.write(self.style.SUCCESS('OK'))
         
+        # Communities and Seasons
         self.stdout.write('Creating dummy communities... ', ending='')
         communities = Community.objects.bulk_create(
             [
                 Community(
-                    name=fake.company(),
+                    name=fake_org_name(),
                     description=fake.paragraph(nb_sentences=3),
                     owner=random.choice(fake_profiles),
                     status=random.choice(COMMUNITY_STATUSES),
@@ -57,9 +66,24 @@ class Command(BaseCommand):
 
         self.stdout.write('Creating dummy seasons for each community... ', ending='')
         per_season = []
+        us_locations = Location.objects.all().filter(country__name="United States")
         for community in communities:
             format = random.choice(GAME_FORMATS)
             for number in range(random.randint(1,8)):
+                start_date = fake.date_this_year()
+                duration = random.randint(1,30)
+                isFuzzy = random.choice([True, False])
+                if isFuzzy:
+                    schedule = Schedule(
+                        start_time_specific=start_date,
+                        game_length_range_exact=duration,
+                    )
+                else:
+                    schedule = Schedule(
+                        start_time_range_earliest=start_date,
+                        game_length_range_exact=duration,
+                    )
+                schedule.save()
                 per_season.append(
                     Season(
                         creation_time=fake.date_time_this_month(),
@@ -67,9 +91,10 @@ class Command(BaseCommand):
                         number=number,
                         community=community,
                         format=format,
+                        location=random.choice(us_locations),
+                        schedule=schedule
                         )
                     )
-                
         seasons = Season.objects.bulk_create(per_season)
         self.stdout.write(self.style.SUCCESS('OK'))
 
@@ -80,6 +105,7 @@ class Command(BaseCommand):
             season.cast.set(random.sample(non_staff, min(random.randint(10,20), len(non_staff))))
         self.stdout.write(self.style.SUCCESS('OK'))
 
+        # Posts
         self.stdout.write('Creating dummy posts for each season... ', ending='')
         posts = Post.objects.bulk_create(
             [
@@ -91,5 +117,49 @@ class Command(BaseCommand):
             ]
         )
         self.stdout.write(self.style.SUCCESS('OK'))
+
+        self.stdout.write('Creating dummy media... ', ending='')
+        Podcast.objects.create(
+            title="Rob Has a Podcast",
+            embed="https://robhasawebsite.com/",
+            source="Spotify",
+            description="Rob Has a Podcast is about a guy named Taran who has a podcast."
+        )
+        Podcast.objects.create(
+            title="No Buffs",
+            embed="https://open.spotify.com/show/0EVPiYK0o4tfP5NbkO9BuM",
+            source="Spotify",
+            description="People talk about Survivor on this one."
+        )
+        Podcast.objects.create(
+            title="The Pod Has Spoken",
+            embed="https://www.theringer.com/podcasts/the-pod-has-spoken",
+            source="Spotify",
+            description="Tyson, who has played survivor, talks about survivor."
+        )
+        Podcast.objects.create(
+            title="A Tribe Called Best",
+            embed="https://open.spotify.com/show/0EVPiYK0o4tfP5NbkO9BuM",
+            source="Spotify",
+            description="Musicians discuss the latest episode of survivor, despite having never seen it."
+        )
+
+        Article.objects.create(
+            title="Breaking: Water declared 'Wet' by leading scientists",
+            embed="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            description="In a shocking turn of events, the world's top environmental scientists and physicists have determined that..."
+        )
+        Article.objects.create(
+            title="Shocking! Big Brother Blinks for First Time in Years",
+            embed="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            description="As it turns out, Big Brother is only sometimes watching. Other times he decides to blink. We followed Big Brother for..."
+        )
+        Article.objects.create(
+            title="Area Man Runs into Johnny Bananas in-Person, Does not Recognize Him",
+            embed="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            description="Who does this guy think he is? As Milwaukee resident Harris Brown exited a coffee shop, he unwittingly ran into a..."
+        )
+        self.stdout.write(self.style.SUCCESS('OK'))
+
 
         self.stdout.write(self.style.SUCCESS('Dummy data populated.'))

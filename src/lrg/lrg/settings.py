@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'compressor',
     'homepage',
     'profiles',
@@ -204,3 +205,7 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
+
+# For redirection
+
+LOGIN_URL = 'profiles:login'

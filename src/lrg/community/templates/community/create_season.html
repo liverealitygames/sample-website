@@ -2,32 +2,39 @@
 {% block content %}
 {% load static %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 600px;">
-        <h2 class="text-center mb-4">Register your LRG</h2>
+    <div class="card p-4 shadow-lg mt-4 mb-4" style="width: 100%; max-width: 600px;">
+        <h2 class="text-center mt-4">Create a new Season for your Community</h2>
 
-        <form action="{% url "community:create_season" %}" method="post">
+        <form action="{% url "community:create_season" community_id %}" method="post">
             {% csrf_token %}
             
-            <div class="mb-3">
-                <select class="form-select w-auto" id="communitySelected">
+            <div class="mb-3 mt-3">
+                <label for="communitySelected" class="form-label">Which Community?</label>
+                <select class="form-select w-auto" name="communitySelected" id="communitySelected" required>
                     <option selected disabled>Select Community</option>
-                    {% for community in user.profile.communities_owned %}
+                    {% for community in user.profile.communities_owned.all %}
                     <option value="{{ community.id }}">{{ community.name }}</option>
                     {% endfor %}
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label for="seasonName" class="form-label">Season Name</label>
-                <input type="text" class="form-control" id="seasonName" placeholder="Ex: Season...">
-            </div>
-
-            <div class="mb-3">
+            {% comment %} Format {% endcomment %}
+            <div class="mb-3 d-flex align-items-center gap-3">
+                <label for="formatSelected" class="form-label">Game format?</label>
+                <select class="form-select w-auto" name="formatSelected" id="formatSeleted" required>
+                    <option selected disabled>Game Format</option>
+                    {% for format in formats %}
+                    <option value="{{ format }}">{{ format }}</option>
+                    {% endfor %}
+                </select>
+              
                 <label for="seasonNumber" class="form-label">Season Number</label>
-                <input type="number" class="form-control" id="seasonNumber" placeholder="Ex: Season...">
-            </div>
+                <input type="number" class="form-control w-auto" name="seasonNumber" id="seasonNumber" placeholder="1">
+              </div>
 
-            <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
+            <div class="mb-3">
+                <label for="startDate" class="form-label">When do you expect the season to start?</label>
+                <input type="date" class="form-control" id="startDate">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="fuzzyStartDate" name="fuzzyStartDate">
                     <label class="form-check-label" for="fuzzyStartDate">Do you have a firm start date?</label>
@@ -35,13 +42,8 @@
             </div>
 
             <div class="mb-3">
-                <label for="startDate" class="form-label">When do you expect the season to start?</label>
-                <input type="date" class="form-control" id="startDate">
-            </div>
-
-            <div class="mb-3">
                 <label for="gameLength" class="form-label">How many days will it last?</label>
-                <input type="number" class="form-control" id="gameLength" placeholder="1">
+                <input type="number" class="form-control" name="gameLength" id="gameLength" placeholder="1">
             </div>
 
             <div class="mb-3">
@@ -56,41 +58,34 @@
 
             {% comment %} Country {% endcomment %}
             <div class="mb-3">
-                <select class="form-select w-auto" id="countrySelected">
+                <select class="form-select w-auto mb-1" name="countrySelected" id="countrySelected">
                     <option selected disabled>Country</option>
                     {% for country in countries %}
                     <option value="{{ country.id }}">{{ country.name }}</option>
                     {% endfor %}
                 </select>
 
-                <input type="text" id="citySelected" class="form-control w-auto" placeholder="city...">
+                <input type="text" name="citySelected" id="citySelected" class="form-control w-auto" placeholder="city...">
             </div>
 
-            {% comment %} Format {% endcomment %}
             <div class="mb-3">
-                <select class="form-select w-auto" id="formatSeleted">
-                    <option selected disabled>Game Format</option>
-                    {% for format in formats %}
-                    <option value="{{ format }}">{{ format }}</option>
-                    {% endfor %}
-                </select>
+                <label for="seasonName" class="form-label">Custom Season Name?</label>
+                <input type="text" class="form-control" name="SeasonName" id="seasonName" placeholder="Ex: Season...">
             </div>
 
-            <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
+            {% comment %} <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="filmed" name="filmed">
                     <label class="form-check-label" for="filmed">Filmed</label>
                 </div>
-            </div>
+            </div> {% endcomment %}
 
             <div class="mb-3">
                 <label for="applicationLink" class="form-label">Application Link</label>
-                <input type="url" class="form-control" id="applicationLink" placeholder="Link to the Google Form, etc...">
+                <input type="url" class="form-control" name="applicationLink" id="applicationLink" placeholder="Link to the Google Form, etc...">
             </div>
 
-            {% include "community/contact.html" %}
-
-            <button type="submit" class="btn btn-primary w-100 mt-3">Create Season</button>
+            <button type="submit" class="btn w-100 mt-3">Create Season</button>
         </form>
     </div>
 </div>

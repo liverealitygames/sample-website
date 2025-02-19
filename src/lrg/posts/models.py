@@ -9,7 +9,7 @@ class Post(Editable):
     Contains information about the Reality Game Season.
     '''
 
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     season = models.OneToOneField(Season, on_delete=models.CASCADE)
     banner = models.OneToOneField(ExternalImage, on_delete=models.CASCADE, blank=True, null=True)
 

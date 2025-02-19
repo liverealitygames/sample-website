@@ -15,7 +15,7 @@ psql -d postgres -c "DROP DATABASE IF EXISTS ${RDS_DB_NAME};"
 psql -d postgres -c "CREATE DATABASE ${RDS_DB_NAME} OWNER ${PGUSER};"
 
 python manage.py flush --no-input
-python manage.py makemigrations homepage && python manage.py makemigrations posts && python manage.py makemigrations community && python manage.py migrate
+python manage.py makemigrations && python manage.py migrate
 python manage.py createsuperuser --no-input
 
 python manage.py add_locations

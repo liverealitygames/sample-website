@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from community.models import Community, Season, Schedule
-from homepage.models import Country, Location
+from homepage.models import Country, Location, City
 from community.const import GAME_FORMATS
 
 
@@ -35,25 +35,32 @@ def create_community(request):
     return render(request, "community/create_community.html")
 
 @login_required
-def create_season(request):
+def create_season(request, community_id):
+
     if request.method == "POST":
 
-        community = get_object_or_404(Community, request.POST.get("communitySelected"))
-        location = get_object_or_404(Location, country=request.POST.get("countrySelected"), city=request.POST.get("citySelected"))
+        community = get_object_or_404(Community, id=request.POST.get("communitySelected"))
+        country = Country.objects.filter(id=request.POST.get("countrySelected")).first()
+        city_id = request.POST.get("citySelected", None)
+        if city_id:
+            city = City.objects.filter(id=city_id).first()
+        else:
+            city = None
+        location = get_object_or_404(Location, country=country, region=None, city=city)
 
         schedule_data = {
             "game_length_range_exact": request.POST.get("gameLength"),
-            ("start_time_specific" if request.POST.get("fuzzyStartDate") else "start_time_earliest"): request.POST.get("startDate"),
+            ("start_time_specific" if request.POST.get("fuzzyStartDate") else "start_time_range_earliest"): request.POST.get("startDate"),
         }
 
         schedule = Schedule(**schedule_data)
 
         season_data = {
             "name": request.POST.get("seasonName"),
-            "number": request.POST.get("seasonNumber"),
+            "number": request.POST.get("seasonNumber", None),
             "description": request.POST.get("discussion"),
             "status": "Under Review",
-            "filmed": request.POST.get("filmed", False),
+            # "filmed": request.POST.get("filmed", False),
             "community":community,
             "status": "Under Review",
             "location":location,
@@ -76,8 +83,10 @@ def create_season(request):
     return render(request, "community/create_season.html", context={
         "countries": list(Country.objects.values("id", "name")),
         "formats": GAME_FORMATS,
+        "community_id": community_id,
         }
     )
+
 
 def community_info(request, community_id):
     community = get_object_or_404(Community, id=community_id)

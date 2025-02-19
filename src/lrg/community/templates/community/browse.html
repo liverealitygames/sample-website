@@ -6,8 +6,8 @@
       {% for community in communities %}
       <div class="col">
           <div class="card shadow-sm">
-              <div class="card-header bg-primary text-white">
-                  {{ community.name }}
+              <div class="card-header text-white">
+                <a href="{% url "community:community_info" community.id %}">{{ community.name }}</a>  
               </div>
               <div class="card-body">
                   <p><strong>Status:</strong> {{ community.status }}</p>

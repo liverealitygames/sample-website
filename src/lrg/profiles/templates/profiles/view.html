@@ -5,14 +5,14 @@
     <div class="row">
         <div class="col-md-8 mx-auto">
             <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
+                <div class="card-header text-white text-center">
                     <h3>{{ profile.user.username }}</h3>
-                    <p class="mb-0">{{ profile.pronouns }}</p>
+                    <p class="mb-0">{{ profile.pronouns|default:"Pronouns unknown" }}</p>
                 </div>
                 <div class="card-body">
                     <h5>Profile Information</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Pronouns:</strong> {{ profile.pronouns }}</li>
+                        <li class="list-group-item"><strong>Pronouns:</strong> <i>{{ profile.pronouns|default:"Unknown" }}</i></li>
                         <li class="list-group-item"><strong>Communities Owned:</strong> {% for community in profile.communities_owned.all %} <a href="{% url "community:community_info" community.id %}">{{community.name}}</a> {% endfor %}</li>
                         {% comment %} <li class="list-group-item"><strong>Communities Staffing:</strong>{{ profile.communities_as_staff.all }}</li> {% endcomment %}
                         {% comment %} <li class="list-group-item"><strong>Casts Joined:</strong> {{ profile.seasons_as_cast.all }}</li> {% endcomment %}
@@ -20,13 +20,13 @@
 
                     {% if profile.user == user %}
                     <div class="mt-4 text-center">
-                        <a href="{% url 'profiles:view' profile.user.username %}" class="btn btn-outline-primary">Edit Profile</a>
+                        <a href="{% url 'profiles:edit' %}" class="btn btn-success btn-sm">Edit Profile</a>
                     </div>
                     {% endif %}
                 </div>
             </div>
 
-            <!-- Additional User Activities Section -->
+            {% comment %} <!-- Additional User Activities Section -->
             <div class="mt-5">
                 <h5>Community Involvement</h5>
                 <div class="list-group">
@@ -38,7 +38,7 @@
                         <p class="text-muted">Not currently involved in any communities.</p>
                     {% endfor %}
                 </div>
-            </div>
+            </div> {% endcomment %}
         </div>
     </div>
 </div>
