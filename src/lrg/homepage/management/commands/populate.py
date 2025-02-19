@@ -34,6 +34,7 @@ class Command(BaseCommand):
                 user=user,
                 account_status="Active",
                 auth_source="Internal",
+                pronouns=random.choice(["he/him","she/her","they/them","any pronouns"]),
                 creation_time=fake.date_time_this_month(),
             ) for user in fake_users]
         

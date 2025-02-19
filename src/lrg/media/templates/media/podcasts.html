@@ -8,7 +8,7 @@
     <div class="list-group">
         {% for podcast in podcasts  %}
         <a href="{{ podcast.embed }}" target="_blank" class="list-group-item list-group-item-action">
-            <strong>{{podcast.name}}</strong> <i>({{ podcast.source }})</i>
+            <strong>{{podcast.title}}</strong> <i>({{ podcast.source }})</i>
         </a>
         {% endfor %}
     </div>
