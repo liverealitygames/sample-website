@@ -67,12 +67,12 @@ class Command(BaseCommand):
 
         self.stdout.write('Creating dummy seasons for each community... ', ending='')
         per_season = []
-        us_locations = Location.objects.all().filter(country__name="United States")
+        us_locations = Location.objects.all().filter(country="United States")
         for community in communities:
             format = random.choice(GAME_FORMATS)
-            for number in range(random.randint(1,8)):
+            for number in range(1,random.randint(1,8)):
                 start_date = fake.date_this_year()
-                duration = random.randint(1,30)
+                duration = random.randint(1,10)
                 isFuzzy = random.choice([True, False])
                 if isFuzzy:
                     schedule = Schedule(

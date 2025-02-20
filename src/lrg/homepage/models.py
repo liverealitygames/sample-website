@@ -59,52 +59,25 @@ class ExternalImage(models.Model):
     
 
 # Locations
-class Country(models.Model):
-
-    code = models.CharField(unique=True)
-    name = models.CharField()
-
-    def __str__(self):
-        return self.name
-
-
-class Region(models.Model):
-
-    code = models.CharField()
-    name = models.CharField()
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True)
-
-    def __str__(self):
-        if self.country:
-            return f"{self.name}, {self.country.code}"
-        return self.name
-
-
-class City(models.Model):
-
-    name = models.CharField()
-    region = models.ForeignKey(Region, on_delete=models.SET_NULL, blank=True, null=True)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True)
-
-    def __str__(self):
-        if self.country:
-            if self.region:
-                return f"{self.name}, {self.region.code}, {self.country.code}"
-            return f"{self.name}, {self.country.name}"
-        return self.name
-    
-
 class Location(models.Model):
 
-    country = models.ForeignKey(Country, blank=True, null=True, on_delete=models.CASCADE)
-    region = models.ForeignKey(Region, blank=True, null=True, on_delete=models.CASCADE)
-    city = models.ForeignKey(City, blank=True, null=True, on_delete=models.CASCADE)
+    country = models.CharField(blank=True, null=True)
+    country_short = models.CharField(blank=True, null=True)
+    region = models.CharField(blank=True, null=True)
+    region_short = models.CharField(blank=True, null=True)
+    city = models.CharField(blank=True, null=True)
 
     def __str__(self):
         if self.city:
-            return str(self.city)
+            if self.country:
+                if self.region:
+                    return f"{self.city}, {self.region_short}, {self.country_short}"
+                return f"{self.city}, {self.country}"
+            return self.city
         if self.region:
-            return str(self.region)
+            if self.country:
+                return f"{self.region}, {self.country_short}"
+            return self.region
         if self.country:
             return str(self.country)
         return "N/A"

@@ -67,7 +67,6 @@ INSTALLED_APPS = [
     'community',
     'posts',
     'media',
-    'livereload',
 ]
 
 MIDDLEWARE = [
@@ -143,7 +142,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # CSRF Trusted Origins
 
 CSRF_TRUSTED_ORIGINS = [
-    "*.awsapprunner.com",
+    "https://*.awsapprunner.com",
 ]
 
 # Internationalization

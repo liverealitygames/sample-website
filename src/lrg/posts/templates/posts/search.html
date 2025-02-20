@@ -4,8 +4,8 @@
 
 <div id="home" class="section text-center mt-5 px-3" style="max-width: 800px; margin: auto;">
     <h2>Search For Live Reality Games</h2>
-    
-    <form class="d-flex flex-column align-items-center mt-3 mb-3" method="post">
+
+    <form class="d-flex flex-column align-items-center mt-3 mb-3" method="post" action="{% url "posts:search" %}">
         {% csrf_token %}
         <div class="input-group mb-2" style="max-width: 600px;">
             <input class="form-control" type="search" placeholder="Search for LRGs..." id="query" name="query">
@@ -14,10 +14,10 @@
 
         <div class="d-flex flex-wrap justify-content-center gap-2" style="max-width: 800px; margin: auto;">
             <!-- Country Dropdown -->
-            <select class="form-select w-auto" id="countrySelected">
+            <select class="form-select w-auto" name="countrySelected" id="countrySelected">
                 <option selected disabled>Country</option>
-                {% for country in countries %}
-                <option value="{{ country.id }}">{{ country.name }}</option>
+                {% for country_short, country in countries %}
+                <option value="{{ country_short }}">{{ country }}</option>
                 {% endfor %}
             </select>
         
@@ -27,11 +27,20 @@
             </select>
          {% endcomment %}
             <!-- City Autocomplete -->
-            <input type="text" id="citySelected" class="form-control w-auto" placeholder="Search for a city">
+            <input type="text" name="citySelected" id="citySelected" class="form-control w-auto" placeholder="Search for a city">
         </div>
-        
-        <!-- Checkboxes -->
+
+
         <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+            <!-- Format Dropdown -->
+            <select class="form-select w-auto" name="gameFormat" id="gameFormat">
+                <option selected disabled>Any Game Format</option>
+                {% for format in formats %}
+                <option value="{{ format }}">{{ format }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Checkboxes -->
             {% for label, name in binary_filters %}
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="{{ name }}" name="{{ name }}">
@@ -49,15 +58,15 @@
         <script>
         $(document).ready(function(){
             // Load cities when country is selected
-            $("#country-select").change(function(){
+            $("#countrySelected").change(function(){
                 let countryId = $(this).val();
 
                 $.ajax({
-                    url: "{% url 'homepage:get_cities' %}",
+                    url: "{% url 'posts:get_cities' %}",
                     data: {'country_id': countryId},
                     dataType: 'json',
                     success: function(data) {
-                        $("#city-search").autocomplete({
+                        $("#citySelected").autocomplete({
                             source: data.cities
                         });
                     }

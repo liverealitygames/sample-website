@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector
-from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 from community.const import GAME_FORMATS
 from posts.models import Post
-from homepage.models import Country
 from community.models import Season
+from homepage.models import Location
+from posts.const import COUNTRIES
 
 def browse(request):
     posts = Post.objects.filter(season__status="Casting")
@@ -35,27 +36,55 @@ def info(request, post_id):
 
 def search(request):
     if request.method == "POST":
+        country_short = request.POST.get("countrySelected", None)
+        city = request.POST.get("citySelected", None)
+
+        locations = Location.objects.all()
+
+        if country_short:
+            locations = Location.objects.filter(country_short=country_short)
+        if city:
+            city = city.split(",")[0]
+            locations = locations.filter(city=city)
+
+        game_format = request.POST.get("gameFormat", None)
+
         query = request.POST.get("query", None)
+        posts = Post.objects.all()
+
+        if game_format:
+            posts = posts.filter(season__format=game_format)
+
         if query:
-            print(query)
-            posts = Post.objects.annotate(
+            posts = posts.annotate(
                 search=SearchVector("description","season__name","season__format"),
             ).filter(search=query)
-        else:
-            print("No query")
-            posts = Post.objects.all()
+
+        if country_short or city:
+            posts = posts.filter(season__location__in=locations)
+
 
         return render(request, 'posts/search.html', context={
-            "countries": list(Country.objects.values("id", "name")),
+            "countries": COUNTRIES.items(),
+            "formats": GAME_FORMATS,
             "binary_filters": [
                 ("Filmed only", "filmed"),
             ],
             "posts":posts,
+            "info":[country_short, city, str(locations), query],
         })
 
     return render(request, 'posts/search.html', context={
-        "countries": list(Country.objects.values("id", "name")),
+        "countries": COUNTRIES.items(),
+        "formats": GAME_FORMATS,
         "binary_filters": [
             ("Filmed only", "filmed"),
         ]
     })
+
+# AJAX
+
+def get_cities(request):
+    country_id = request.GET.get("country_id")
+    cities = list(str(city) for city in Location.objects.filter(country_short=country_id))
+    return JsonResponse({"cities": cities})

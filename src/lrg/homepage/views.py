@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from homepage.models import Country, City
 
 # Main Pages
 def home(request):
@@ -12,12 +10,6 @@ def about(request):
 def contact(request):
     return render(request, 'homepage/contact.html')
 
-# AJAX
-
-def get_cities(request):
-    country_id = request.GET.get("country_id")
-    cities = list(str(city) for city in City.objects.filter(country_id=country_id))
-    return JsonResponse({"cities": cities})
 
 def custom_404(request, exception):
     return render(request, '404.html', status=404)

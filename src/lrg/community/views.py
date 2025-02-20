@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from community.models import Community, Season, Schedule
-from homepage.models import Country, Location, City
+from homepage.models import Location
 from community.const import GAME_FORMATS
+from posts.const import COUNTRIES, CITIES, STATES
 
 
 # Create your views here.
@@ -40,13 +41,7 @@ def create_season(request, community_id):
     if request.method == "POST":
 
         community = get_object_or_404(Community, id=request.POST.get("communitySelected"))
-        country = Country.objects.filter(id=request.POST.get("countrySelected")).first()
-        city_id = request.POST.get("citySelected", None)
-        if city_id:
-            city = City.objects.filter(id=city_id).first()
-        else:
-            city = None
-        location = get_object_or_404(Location, country=country, region=None, city=city)
+        location = Location.objects.filter(country=request.POST.get("countrySelected"), city=request.POST.get("citySelected", None)).first()
 
         schedule_data = {
             "game_length_range_exact": request.POST.get("gameLength"),
@@ -81,7 +76,7 @@ def create_season(request, community_id):
             messages.error(request, f"Error creating community. {e}")
 
     return render(request, "community/create_season.html", context={
-        "countries": list(Country.objects.values("id", "name")),
+        "countries": COUNTRIES.items(),
         "formats": GAME_FORMATS,
         "community_id": community_id,
         }

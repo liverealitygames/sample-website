@@ -76,6 +76,9 @@ class Season(Editable):
     def get_name(self):
         return self.name or self.format+' Season '+str(self.number)
     
+    def get_start_date(self):
+        return self.schedule.start_time_specific or self.schedule.start_time_range_earliest
+    
     def describe(self):
         if self.description:
             return self.description

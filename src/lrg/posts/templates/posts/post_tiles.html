@@ -16,9 +16,9 @@
         const posts = [
             {% for post in posts %}
             {
-                season_name: "{{ post.season }}",
-                season_number: "{{ post.season.season_number }}",
-                start_date: "{{ post.season.start_date|default:'Start Date Unknown' }}",
+                community_name: "{{ post.season.community }}",
+                season_name: "{{ post.season.get_name }}",
+                start_date: "{{ post.season.get_start_date|default:'Start Date Unknown' }}",
                 image_url: "https://picsum.photos/400/200",
                 application_link: "{{ post.season.application_link }}",
                 community_info_link: "{% url 'community:community_info' post.season.community.id %}",
@@ -26,7 +26,9 @@
                 location: "{{ post.season.location }}",
                 season_link: "{% url "community:season_info" post.season.community.id post.season.id %}"
             },
+            {% empty %}
             {% endfor %}
+            
         ];
 
         const postsPerPage = 6; // Change as needed
@@ -41,14 +43,14 @@
             const paginatedPosts = posts.slice(start, end);
 
             paginatedPosts.forEach(post => {
-                const postHtml = `
+                const postHtml = {% if posts|length > 0 %}`
                     <div class="col-md-4">
                         <div class="card h-100">
-                            <h3 class="card-header text-center"><a href=${post.season_link}>${post.season_name}</a></h3>
+                            <h3 class="card-header text-center"><a href=${post.season_link} class="text-light">${post.community_name}</a></h3>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-middle">
-                                    <h5 class="card-title">Season ${post.season_number}</h5>
-                                    <h6 class="card-subtitle text-muted">${post.start_date}</h6>
+                                    <h5 class="card-title">${post.season_name}</h5>
+                                    <h6 class="text-muted">${post.start_date}</h6>
                                 </div>
                             </div>
                             <a href="#">
@@ -64,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                `;
+                `{% else %}<p><strong>Sorry, no results were found.<strong/></p>{% endif %};
                 postContainer.innerHTML += postHtml;
             });
         }
