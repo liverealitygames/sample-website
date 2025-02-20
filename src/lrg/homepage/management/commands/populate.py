@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from faker import Faker
 from profiles.models import Profile
 from community.models import Community, Season, Schedule
@@ -12,10 +13,14 @@ import os
 
 fake = Faker()
 
-def fake_org_name():
-    prefix = fake.first_name()
-    suffix = random.choice(["-Vivor", "'s Big Brother", "'s The Challenge", "'s Survivor", "'s Reality Games", " Does RGs", " Reality Gaming", " LRGs", " RG Hub"])
-    return prefix+suffix
+def fake_org_names(num):
+    names = []
+    while len(names) < num:
+        prefix = fake.first_name()
+        suffix = random.choice(["-Vivor", "'s Big Brother", "'s The Challenge", "'s Survivor", "'s Reality Games", " Does RGs", " Reality Gaming", " LRGs", " RG Hub"])
+        if prefix+suffix not in names:
+            names.append(prefix+suffix)
+    return names
 
 class Command(BaseCommand):
     help = 'Populate the database with fake data'
@@ -25,8 +30,11 @@ class Command(BaseCommand):
         help = 'Populate the database with fake data'
 
         # Users and Profiles
+        print("users")
         self.stdout.write('Creating dummy users... ', ending='')
-        fake_users = [User.objects.create_user(username = fake.profile()["username"]) for _ in range(20)]
+        fake_users = User.objects.bulk_create(
+            [User(username=fake.profile()["username"], password=make_password(fake.password())) for _ in range(100)]
+        )
         self.stdout.write(self.style.SUCCESS('OK'))
         
         self.stdout.write('Creating dummy profiles... ', ending='')
@@ -48,14 +56,16 @@ class Command(BaseCommand):
         
         # Communities and Seasons
         self.stdout.write('Creating dummy communities... ', ending='')
+        community_size = 50
+        fake_org_name_list = fake_org_names(community_size)
         communities = Community.objects.bulk_create(
             [
                 Community(
-                    name=fake_org_name(),
+                    name=fake_org_name,
                     description=fake.paragraph(nb_sentences=3),
                     owner=random.choice(fake_profiles),
                     status=random.choice(COMMUNITY_STATUSES),
-                ) for _ in range(5)
+                ) for fake_org_name in fake_org_name_list
             ]
         )
         self.stdout.write(self.style.SUCCESS('OK'))
@@ -68,8 +78,10 @@ class Command(BaseCommand):
         self.stdout.write('Creating dummy seasons for each community... ', ending='')
         per_season = []
         us_locations = Location.objects.all().filter(country="United States")
+        all_locations = Location.objects.all()
         for community in communities:
             format = random.choice(GAME_FORMATS)
+            international = random.choice([True, False])
             for number in range(1,random.randint(1,8)):
                 start_date = fake.date_this_year()
                 duration = random.randint(1,10)
@@ -92,7 +104,7 @@ class Command(BaseCommand):
                         number=number,
                         community=community,
                         format=format,
-                        location=random.choice(us_locations),
+                        location=random.choice(all_locations if international else us_locations),
                         schedule=schedule
                         )
                     )
@@ -145,11 +157,6 @@ class Command(BaseCommand):
             description="Musicians discuss the latest episode of survivor, despite having never seen it."
         )
 
-        Article.objects.create(
-            title="Breaking: Water declared 'Wet' by leading scientists",
-            embed="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-            description="In a shocking turn of events, the world's top environmental scientists and physicists have determined that..."
-        )
         Article.objects.create(
             title="Shocking! Big Brother Blinks for First Time in Years",
             embed="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
