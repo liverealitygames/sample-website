@@ -170,5 +170,6 @@ cython_debug/
 .pypirc
 
 docker-compose.env
+docker-compose-cloud.*
 pg_data/*
 src/lrg/staticfiles/CACHE/*

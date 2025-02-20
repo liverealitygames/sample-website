@@ -7,19 +7,18 @@ services:
     volumes:
       - ./src/lrg:/app
     env_file:
-      - docker-compose.env
+      - sample-docker-compose.env
     ports:
       - 8080:8080
     depends_on:
       - db
-    # entrypoint: ["gunicorn", "lrg.wsgi:application", "--bind", "0.0.0.0:8080"]
-    entrypoint: ["python", "manage.py", "runserver","0.0.0.0:8080"]
+    entrypoint: ["scripts/startup.sh"]
   db:
     image: postgres
     container_name: postgres_local
     restart: always
     env_file:
-      - docker-compose-pg.env
+      - sample-docker-compose-pg.env
     ports:
       - "5432:5432"
     volumes:

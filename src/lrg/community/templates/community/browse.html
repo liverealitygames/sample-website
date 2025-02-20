@@ -9,9 +9,9 @@
               <div class="card-header text-white">
                 <a href="{% url "community:community_info" community.id %}">{{ community.name }}</a>  
               </div>
-              <div class="card-body">
-                  <p><strong>Status:</strong> {{ community.status }}</p>
-                  <p><strong>Owner:</strong> By {{ community.owner.name }}</p>
+              <div class="card-body bg-secondary justify-content-center">
+                  <p><strong>{{ community.status }}</strong></p>
+                  <p><strong>Managed by</strong> <a href="{% url "profiles:view" community.owner.id %}">{{ community.owner.user }}</a></p>
               </div>
           </div>
       </div>

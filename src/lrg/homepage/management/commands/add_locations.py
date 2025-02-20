@@ -41,13 +41,14 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('OK'))
 
         self.stdout.write('Adding cities... ', ending='')
+        us_cities = {city:obj for city, obj in cities.items() if obj.get('countrycode') == 'US'} 
         City.objects.bulk_create(
             [
                 City(
                     country=Country.objects.filter(code=obj.get('countrycode')).first() if obj.get('countrycode') else None,
                     region=Region.objects.filter(code=obj.get('admin1code')).first() if obj.get('admin1code') else None,
                     name=obj['name'],
-                ) for _, obj in cities.items()
+                ) for _, obj in list(us_cities.items())[:100]
             ]
         )
         self.stdout.write(self.style.SUCCESS('OK'))

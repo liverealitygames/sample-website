@@ -122,7 +122,7 @@ h2, h3 {
 
 a:link {
     text-decoration: none;
-    color: var(--ghost-white);
+    color: var(--bs-dark);
 }
 
 .accordion-button.collapsed {

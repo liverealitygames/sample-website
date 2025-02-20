@@ -21,11 +21,12 @@ DB_USERNAME = os.environ.get("RDS_USERNAME")
 DB_NAME = os.environ.get("RDS_DB_NAME")
 DB_REGION = os.environ.get("RDS_REGION")
 
-# Create an RDS client
-rds_client = boto3.client("rds", DB_REGION)
+if DB_REGION:
+    # Assume the user is connecting to the cloud and create an RDS client
+    rds_client = boto3.client("rds", DB_REGION)
 
 # Generate the auth token
-DB_PASSWORD = DB_REGION = os.environ.get("RDS_PASSWORD") or rds_client.generate_db_auth_token(
+DB_PASSWORD = os.environ.get("RDS_PASSWORD") or rds_client.generate_db_auth_token(
     DBHostname=DB_HOSTNAME,
     Port=int(DB_PORT),
     DBUsername=DB_USERNAME

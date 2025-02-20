@@ -18,9 +18,12 @@ def browse(request):
 @login_required
 def create(request):
     if request.method == "POST":
-        application_link = request.POST.get("applicationLink", None)
-        game_format = request.POST.get("gameFormat", None)
-        season = get_object_or_404(Season, request.POST.get("seasonId"))
+        description = request.POST.get("description", None)
+        season = get_object_or_404(Season, id=request.POST.get("seasonId"))
+        Post.objects.create(
+            season=season,
+            description=description,
+        )
     return render(request, "posts/create.html", context={
         "game_formats":GAME_FORMATS,
         "seasons":Season.objects.filter(community__owner=request.user.profile)
