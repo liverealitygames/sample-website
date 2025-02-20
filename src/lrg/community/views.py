@@ -29,7 +29,7 @@ def create_community(request):
             community.full_clean()  # Run validation
             community.save()  # Save if valid
             messages.success(request, "Community created successfully")
-            return redirect("homepage:index")
+            return redirect("community:community_info", community.id)
         except ValidationError as e:
             messages.error(request, f"Error creating community. {e}")
 

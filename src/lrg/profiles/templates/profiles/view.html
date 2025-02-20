@@ -12,8 +12,8 @@
                 <div class="card-body">
                     <h5>Profile Information</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Pronouns:</strong> <i>{{ profile.pronouns|default:"Unknown" }}</i></li>
-                        <li class="list-group-item"><strong>Communities Owned:</strong> {% for community in profile.communities_owned.all %} <a href="{% url "community:community_info" community.id %}">{{community.name}}</a> {% endfor %}</li>
+                        <li class="list-group-item text-light"><strong>Pronouns:</strong> <i>{{ profile.pronouns|default:"Unknown" }}</i></li>
+                        <li class="list-group-item text-light"><strong>Communities Owned:</strong> {% for community in profile.communities_owned.all %} <a href="{% url "community:community_info" community.id %}">{{community.name}}</a> {% endfor %}</li>
                         {% comment %} <li class="list-group-item"><strong>Communities Staffing:</strong>{{ profile.communities_as_staff.all }}</li> {% endcomment %}
                         {% comment %} <li class="list-group-item"><strong>Casts Joined:</strong> {{ profile.seasons_as_cast.all }}</li> {% endcomment %}
                     </ul>

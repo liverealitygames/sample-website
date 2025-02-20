@@ -99,7 +99,7 @@
                 let countryId = $(this).val();
 
                 $.ajax({
-                    url: "{% url 'homepage:get_cities' %}",
+                    url: "{% url 'posts:get_cities' %}",
                     data: {'country_id': countryId},
                     dataType: 'json',
                     success: function(data) {
