@@ -17,7 +17,7 @@ If the online version has issues, you could also run a local copy of this websit
 
 #### Making Changes
 
-You can login to the admin console by going to `localhost:8080/admin`. From there, you can log in with "admin" as the username and "password" as the password. These credentials only work locally. From here, you will be able to manually create, destroy, or change any of the resources that appear on the main page - the communities, the posts, the seasons, the podcasts, the news articles, etc.
+You can login to the admin console by going to `localhost:8080/admin`, with "admin" as the username and "password" as the password. These credentials only work locally. From here, you will be able to manually create, destroy, or change any of the resources that appear on the main page - the communities, the posts, the seasons, the podcasts, the news articles, etc.
 
 Running the website locally means any changes to website-related files should update automatically - for example, if you go to `../src/lrg/homepage/templates/homepage/base.html`, change line 7 from `<title>LRG Demo</title>` to `<title>My Site</title>`, and save the file, that change should be reflected when you go back to view the page. There are exceptions to this; some changes to the `models.py` files will require you to perform a "migration" of the data, as the database needs to update its schema based on how the models have changed.
 
