@@ -1,0 +1,41 @@
+name: Push Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker to use Google Artifact Registry
+        run: gcloud auth configure-docker ${{ secrets.GAR_REGION }}-docker.pkg.dev
+
+      - name: Build, tag, and push docker image to Google Artifact Registry
+        env:
+          GAR_REGION: ${{ secrets.GAR_REGION }}
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          REPOSITORY: lrg-docker
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $GAR_REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY:$IMAGE_TAG .
+          docker push $GAR_REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY:$IMAGE_TAG
+          docker build -t $GAR_REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY:latest .
+          docker push $GAR_REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY:latest
