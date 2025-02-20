@@ -11,26 +11,36 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import boto3
 import os
 
 # RDS connection
-DB_HOSTNAME = os.environ.get("RDS_HOSTNAME")
-DB_PORT = os.environ.get("RDS_PORT")
-DB_USERNAME = os.environ.get("RDS_USERNAME")
-DB_NAME = os.environ.get("RDS_DB_NAME")
-DB_REGION = os.environ.get("RDS_REGION")
+DB_HOSTNAME = os.environ.get("DB_HOSTNAME")
+DB_PORT = os.environ.get("DB_PORT")
+DB_USERNAME = os.environ.get("DB_USERNAME")
+DB_NAME = os.environ.get("DB_NAME")
+DB_REGION = os.environ.get("DB_REGION", None)
+DB_ENVIRONMENT = os.environ.get("DB_ENV", "local")
 
-if DB_REGION:
-    # Assume the user is connecting to the cloud and create an RDS client
-    rds_client = boto3.client("rds", DB_REGION)
+match DB_ENVIRONMENT:
+    case "aws":
+        import boto3
+        # Assume the user is connecting to the cloud and create an RDS client
+        rds_client = boto3.client("rds", DB_REGION)
 
-# Generate the auth token
-DB_PASSWORD = os.environ.get("RDS_PASSWORD") or rds_client.generate_db_auth_token(
-    DBHostname=DB_HOSTNAME,
-    Port=int(DB_PORT),
-    DBUsername=DB_USERNAME
-)
+        # Generate the auth token
+        DB_PASSWORD = rds_client.generate_db_auth_token(
+            DBHostname=DB_HOSTNAME,
+            Port=int(DB_PORT),
+            DBUsername=DB_USERNAME,
+        )
+
+    case "local":
+        DB_PASSWORD = os.environ.get("DB_PASSWORD")
+    
+    case "gcp":
+        # TODO: Service account auth
+        DB_PASSWORD = os.environ.get("DB_PASSWORD")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
