@@ -125,7 +125,7 @@ class Command(BaseCommand):
                     region=region_isos[obj.get('admin1code')] if obj.get('admin1code') in region_isos.keys() else None,
                     region_short=obj.get('admin1code') if obj.get('admin1code') in region_isos.keys() else None,
                     city=obj['name'],
-                ) for _, obj in cities.items()
+                ) for _, obj in cities.items() if obj['population'] > 250000
             ]
         )
         self.stdout.write(self.style.SUCCESS('OK'))
