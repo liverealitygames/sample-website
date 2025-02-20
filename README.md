@@ -4,7 +4,7 @@
 
 ### Online Access
 
-The latest version of the website should be available at `https://qdjkf9dvya.us-east-1.awsapprunner.com/`. This version is populated with fake data that is shared between everyone who accesses it.
+The latest version of the website should be available at https://qdjkf9dvya.us-east-1.awsapprunner.com/. This version is populated with fake data that is shared between everyone who accesses it.
 If the online version has issues, you could also run a local copy of this website with these steps:
 
 #### Spinning Up
