@@ -58,6 +58,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     ".awsapprunner.com",
     "localhost",
+    ".run.app",
     ]
 
 
@@ -152,6 +153,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.awsapprunner.com",
+    "https://*.run.app",
 ]
 
 # Internationalization
