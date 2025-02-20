@@ -3,7 +3,7 @@ name: Push Image
 on:
   push:
     branches:
-      - main
+      - aws
 
 jobs:
   push:
