@@ -4,7 +4,7 @@
 
 ### Online Access
 
-The latest version of the website should be available at https://qdjkf9dvya.us-east-1.awsapprunner.com/. This version is populated with fake data that is shared between everyone who accesses it.
+The latest version of the website should be available at https://sample-website-387476793258.us-central1.run.app/. This version is populated with fake data that is shared between everyone who accesses it.
 If the online version has issues, you could also run a local copy of this website with these steps:
 
 #### Spinning Up
@@ -55,7 +55,7 @@ After removing all containers and images you should be okay to uninstall docker.
 
 ### Tech Stack
 
-- I used Bootstrap/Django/Postgres/AWS as those are the tools I am most comfortable with. I am not married to them and they do cost more money and require more maintenance than other options (AWS especially).
+- I used Bootstrap/Django/Postgres/GCP as those are the tools I am most comfortable with. I am not married to them and they do cost more money and require more maintenance than other options (GCP especially).
 
 ### Installation Notes
 

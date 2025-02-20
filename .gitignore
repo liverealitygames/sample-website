@@ -174,3 +174,5 @@ docker-compose-cloud.*
 docker-compose-gcp.*
 pg_data/*
 src/lrg/staticfiles/CACHE/*
+
+job.yaml
