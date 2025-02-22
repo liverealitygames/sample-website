@@ -41,6 +41,10 @@ match DB_ENVIRONMENT:
         # TODO: Service account auth
         DB_PASSWORD = os.environ.get("DB_PASSWORD")
 
+    case "sb":
+        # TODO: API Key auth
+        DB_PASSWORD = os.environ.get("DB_PASSWORD")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

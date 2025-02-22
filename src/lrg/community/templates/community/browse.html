@@ -6,12 +6,12 @@
       {% for community in communities %}
       <div class="col">
           <div class="card shadow-sm">
-              <div class="card-header text-white">
-                <a href="{% url "community:community_info" community.id %}">{{ community.name }}</a>  
+              <div class="card-header">
+                <a class="text-white" href="{% url "community:community_info" community.id %}">{{ community.name }}</a>  
               </div>
               <div class="card-body bg-secondary justify-content-center">
-                  <p><strong>{{ community.status }}</strong></p>
-                  <p><strong>Managed by</strong> <a href="{% url "profiles:view" community.owner.id %}">{{ community.owner.user }}</a></p>
+                  <p class="text-white"><i>{{ community.status }}</i></p>
+                  <p class="text-white"><strong>Managed by:</strong> <a class="text-white" href="{% url "profiles:view" community.owner.id %}">{{ community.owner.user }}</a></p>
               </div>
           </div>
       </div>
