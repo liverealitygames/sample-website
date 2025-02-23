@@ -48,8 +48,8 @@ class Editable(Stamped):
 
 class ExternalImage(models.Model):
     
-    full_size_url = models.CharField()
-    description = models.CharField(blank=True, null=True)
+    full_size_url = models.CharField(max_length=256)
+    description = models.CharField(blank=True, null=True, max_length=256)
 
     def resize(self):
         pass
@@ -61,11 +61,11 @@ class ExternalImage(models.Model):
 # Locations
 class Location(models.Model):
 
-    country = models.CharField(blank=True, null=True)
-    country_short = models.CharField(blank=True, null=True)
-    region = models.CharField(blank=True, null=True)
-    region_short = models.CharField(blank=True, null=True)
-    city = models.CharField(blank=True, null=True)
+    country = models.CharField(blank=True, null=True, max_length=256)
+    country_short = models.CharField(blank=True, null=True, max_length=256)
+    region = models.CharField(blank=True, null=True, max_length=256)
+    region_short = models.CharField(blank=True, null=True, max_length=256)
+    city = models.CharField(blank=True, null=True, max_length=256)
 
     def __str__(self):
         if self.city:

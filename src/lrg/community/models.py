@@ -7,10 +7,10 @@ from community.const import *
 
 class ContactInfo(Editable):
 
-    wiki = models.CharField(blank=True, null=True)
-    instagram = models.CharField(blank=True, null=True)
-    facebook = models.CharField(blank=True, null=True)
-    bluesky = models.CharField(blank=True, null=True)
+    wiki = models.CharField(blank=True, null=True, max_length=256)
+    instagram = models.CharField(blank=True, null=True, max_length=256)
+    facebook = models.CharField(blank=True, null=True, max_length=256)
+    bluesky = models.CharField(blank=True, null=True, max_length=256)
 
 
 class Schedule(Editable):
@@ -33,11 +33,11 @@ class Community(Editable):
 
     community_status_choices = {choice:choice for choice in COMMUNITY_STATUSES}
 
-    name = models.CharField(unique=True)
+    name = models.CharField(unique=True, max_length=256)
     description = models.TextField(blank=True, null=True)
     staff = models.ManyToManyField(Profile, related_name="communities_as_staff")
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="communities_owned")
-    status = models.CharField(choices=community_status_choices)
+    status = models.CharField(choices=community_status_choices, max_length=256)
     contact = models.OneToOneField(ContactInfo, on_delete=models.CASCADE, blank=True, null=True)
     banner = models.OneToOneField(ExternalImage, on_delete=models.CASCADE, blank=True, null=True)
 
@@ -56,17 +56,17 @@ class Season(Editable):
     game_format_choices = {choice:choice for choice in GAME_FORMATS}
     season_status_choices = {choice:choice for choice in SEASON_STATUSES}
 
-    name = models.CharField(blank=True, null=True)
+    name = models.CharField(blank=True, null=True, max_length=256)
     number = models.IntegerField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    status = models.CharField(choices=season_status_choices)
+    status = models.CharField(choices=season_status_choices, max_length=256)
     filmed = models.BooleanField(blank=True, null=True)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
-    application_link = models.CharField(blank=True, null=True)
+    application_link = models.CharField(blank=True, null=True, max_length=256)
     staff = models.ManyToManyField(Profile, related_name="seasons_as_staff")
     cast = models.ManyToManyField(Profile, related_name="seasons_as_cast")
-    format = models.CharField(choices=game_format_choices)
+    format = models.CharField(choices=game_format_choices, max_length=256)
     banner = models.OneToOneField(ExternalImage, on_delete=models.CASCADE, blank=True, null=True)
     schedule = models.OneToOneField(Schedule, on_delete=models.CASCADE, blank=True, null=True)
 

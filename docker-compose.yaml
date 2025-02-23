@@ -10,19 +10,4 @@ services:
       - sample-docker-compose.env
     ports:
       - 8080:8080
-    depends_on:
-      - db
     entrypoint: ["scripts/startup.sh"]
-  db:
-    image: postgres
-    container_name: postgres_local
-    restart: always
-    env_file:
-      - sample-docker-compose-pg.env
-    ports:
-      - "5432:5432"
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-
-volumes:
-  pg_data:

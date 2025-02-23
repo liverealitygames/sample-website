@@ -8,9 +8,9 @@ class Podcast(Editable):
 
     podcast_source_choices = {choice:choice for choice in PODCAST_SOURCES}
 
-    title = models.CharField()
-    embed = models.CharField()
-    source = models.CharField(choices=podcast_source_choices)
+    title = models.CharField(max_length=256)
+    embed = models.CharField(max_length=256)
+    source = models.CharField(choices=podcast_source_choices, max_length=256)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -20,8 +20,8 @@ class Podcast(Editable):
 # News articles
 class Article(Stamped):
 
-    title = models.CharField()
-    embed = models.CharField()
+    title = models.CharField(max_length=256)
+    embed = models.CharField(max_length=256)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
