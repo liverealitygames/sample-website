@@ -64,7 +64,6 @@ class Season(Editable):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     application_link = models.CharField(blank=True, null=True, max_length=256)
-    staff = models.ManyToManyField(Profile, related_name="seasons_as_staff")
     cast = models.ManyToManyField(Profile, related_name="seasons_as_cast")
     format = models.CharField(choices=game_format_choices, max_length=256)
     banner = models.OneToOneField(ExternalImage, on_delete=models.CASCADE, blank=True, null=True)
@@ -83,7 +82,7 @@ class Season(Editable):
         if self.description:
             return self.description
         description = ""
-        description += "Game Runners: "+" / ".join([str(profile) for profile in self.staff.all()])+"\n"
+        description += "Game Runners: "+" / ".join([str(profile) for profile in self.community.staff.all()])+"\n"
         description += "Cast: "+" / ".join([str(profile) for profile in self.cast.all()])+"\n"
         description += "Location: "+(str(self.location) if self.location else "???")+"\n"
         description += "Schedule: "+(str(self.schedule) if self.schedule else "???")

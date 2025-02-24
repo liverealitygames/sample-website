@@ -2,20 +2,60 @@
 {% block content %} 
 {% load static %}
 <div class="container mt-4">
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  <div id="community-list" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       {% for community in communities %}
-      <div class="col">
+      <div class="col community-item">
           <div class="card shadow-sm">
               <div class="card-header">
-                <a class="text-white" href="{% url "community:community_info" community.id %}">{{ community.name }}</a>  
+                <a class="text-white" href="{% url 'community:community_info' community.id %}">{{ community.name }}</a>  
               </div>
               <div class="card-body bg-secondary justify-content-center">
                   <p class="text-white"><i>{{ community.status }}</i></p>
-                  <p class="text-white"><strong>Managed by:</strong> <a class="text-white" href="{% url "profiles:view" community.owner.id %}">{{ community.owner.user }}</a></p>
+                  <p class="text-white"><strong>Managed by:</strong> <a class="text-white" href="{% url 'profiles:view' community.owner.id %}">{{ community.owner.user }}</a></p>
               </div>
           </div>
       </div>
       {% endfor %}
   </div>
+  
+  <div class="pagination-container mt-4">
+    <button id="prev-page" class="btn btn-primary" disabled>← Prev</button>
+    <span id="page-info" class="mx-3"></span>
+    <button id="next-page" class="btn btn-primary">Next →</button>
+  </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const itemsPerPage = 15;
+      const communityItems = document.querySelectorAll(".community-item");
+      const totalPages = Math.ceil(communityItems.length / itemsPerPage);
+      let currentPage = 1;
+      
+      function showPage(page) {
+          communityItems.forEach((item, index) => {
+              item.style.display = (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) ? "block" : "none";
+          });
+          document.getElementById("page-info").textContent = `Page ${page} of ${totalPages}`;
+          document.getElementById("prev-page").disabled = (page === 1);
+          document.getElementById("next-page").disabled = (page === totalPages);
+      }
+
+      document.getElementById("prev-page").addEventListener("click", function () {
+          if (currentPage > 1) {
+              currentPage--;
+              showPage(currentPage);
+          }
+      });
+
+      document.getElementById("next-page").addEventListener("click", function () {
+          if (currentPage < totalPages) {
+              currentPage++;
+              showPage(currentPage);
+          }
+      });
+      
+      showPage(currentPage);
+  });
+</script>
 {% endblock %}

@@ -30,6 +30,8 @@ class Stamped(models.Model):
             return f"{age.days} days"
         if int(age.seconds):
             if age.seconds > 60:
+                if age.seconds > 3600:
+                    return f"{age.seconds // 3600} hours"
                 return f"{age.seconds // 60} minutes"
             return f"{age.seconds} seconds"
         return f"less than a second"

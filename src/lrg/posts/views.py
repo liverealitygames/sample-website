@@ -9,13 +9,6 @@ from community.models import Season
 from homepage.models import Location
 from posts.const import COUNTRIES
 
-def browse(request):
-    posts = Post.objects.filter(season__status="Casting")
-    return render(request, "posts/browse.html", context={
-        "posts":posts,
-        "posts_per_page":12,
-        })
-
 @login_required
 def create(request):
     if request.method == "POST":
@@ -35,8 +28,10 @@ def info(request, post_id):
     return render(request, "posts/info.html", context={"post":post})
 
 def search(request):
+    casting_posts = Post.objects.filter(season__status="Casting")
+    casting_country_ids = {post.season.location.country_short for post in casting_posts}
     context = {
-        "countries": COUNTRIES.items(),
+        "countries": ((country_short,country_long) for country_short,country_long in COUNTRIES.items() if country_short in casting_country_ids),
         "formats": GAME_FORMATS,
         "binary_filters": [("Filmed only", "filmed")],
     }
@@ -56,7 +51,7 @@ def search(request):
             locations = locations.filter(city=city)
 
         # Optimize post filtering
-        posts = Post.objects.all().select_related("season").prefetch_related("season__location")
+        posts = casting_posts.select_related("season").prefetch_related("season__location")
 
         if game_format:
             posts = posts.filter(season__format=game_format)
