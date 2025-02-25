@@ -154,7 +154,8 @@ class Command(BaseCommand):
                         community=community,
                         format=format,
                         location=random.choice(all_locations if international else us_locations),
-                        schedule=schedule
+                        schedule=schedule,
+                        application_link="https://forms.gle/umLWkHNwkKxH6sEu8",
                         )
                     )
         seasons = Season.objects.bulk_create(per_season)

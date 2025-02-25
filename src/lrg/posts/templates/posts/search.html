@@ -21,11 +21,14 @@
                 {% endfor %}
             </select>
         
-            {% comment %} <!-- State Dropdown (Optional) -->
-            <select class="form-select w-auto" id="state-select" disabled>
+            <!-- State Dropdown -->
+            <select class="form-select w-auto" name="stateSelected" id="stateSelected">
                 <option selected disabled>State</option>
+                {% for state_short, state in states %}
+                <option value="{{ state_short }}">{{ state }}</option>
+                {% endfor %}
             </select>
-         {% endcomment %}
+         
             <!-- City Autocomplete -->
             <input type="text" name="citySelected" id="citySelected" class="form-control w-auto" placeholder="Search for a city">
         </div>

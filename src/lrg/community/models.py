@@ -2,6 +2,7 @@ from django.db import models
 from homepage.models import Editable, ExternalImage, Location
 from profiles.models import Profile
 from community.const import *
+from datetime import timedelta
 
 # Create your models here.
 
@@ -20,6 +21,21 @@ class Schedule(Editable):
     
     def has_fuzzy_start_time(self):
         return bool(self.start_time_range_earliest or self.start_time_range_latest)
+    
+    def get_start_time(self):
+        if self.has_fuzzy_start_time():
+            return self.start_time_range_earliest
+        return self.start_time_specific
+    
+    def get_length(self):
+        if self.has_fuzzy_length():
+            return self.game_length_range_shortest
+        return self.game_length_range_exact
+    
+    def __str__(self):
+        start_time = self.get_start_time()
+        end_time = start_time + timedelta(days=self.get_length())
+        return f"{start_time.strftime("%b %d, %Y")} - {end_time.strftime("%b %d, %Y")}"
 
 
 class Community(Editable):
@@ -101,7 +117,7 @@ class Season(Editable):
         if self.description:
             return self.description
         description = ""
-        description += "Game Runners: "+" / ".join([str(profile) for profile in self.community.staff.all()])+"\n"
+        description += "Game Runners: "+" / ".join([str(profile) for profile in self.community.staff.get_all()])+"\n"
         description += "Cast: "+" / ".join([str(profile) for profile in self.cast.all()])+"\n"
         description += "Location: "+(str(self.location) if self.location else "???")+"\n"
         description += "Schedule: "+(str(self.schedule) if self.schedule else "???")
@@ -121,7 +137,7 @@ class Staff(Editable):
     community = models.OneToOneField(Community, on_delete=models.CASCADE)
 
     def get_all(self):
-        return list(set(self.hosts.all() + self.contacts.all() + self.general.all()))
+        return list(set(self.hosts.all() | self.contacts.all() | self.general.all()))  # Syntax for combining querysets
     
     # def is_active(self):
     #     return bool(self.community)

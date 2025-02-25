@@ -21,4 +21,4 @@ def capitalize(str):
 def get_default_banner(format):
     if DEFAULT_BANNERS.get(format):
         return DEFAULT_BANNERS[format]
-    return "images/custom_logo.jpg"
+    return "images/default_banners/custom_logo.jpg"

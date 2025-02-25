@@ -1,5 +1,6 @@
 {% extends "homepage/base.html" %}
 {% block content %} 
+{% load custom_filters %}
 {% load static %}
 <div class="container mt-5">
     <!-- Banner -->
@@ -11,7 +12,7 @@
     <div class="row my-5">
         <div class="col-md-8 mx-auto text-center">
             <h2>About The Season</h2>
-            <p>{{ season.describe }}</p>
+            <p>{{ season.describe|linebreaks }}</p>
         </div>
     </div>
 
@@ -22,10 +23,12 @@
         <div class="col-12 text-center">
             <h2>Other Seasons for {{ season.community.name }}</h2>
         </div>
-        {% for season in season.community.season_set.all %}
+        {% for other_season in season.community.season_set.all %}
+        {% if season != other_season %}
         <div class="col-md-6 text-center">
-            <a href="{% url "community:season_info" season.community.id season.id %}" class="btn btn-outline-primary btn-lg">{{ season }}</a>
+            <a href="{% url "community:season_info" other_season.community.id other_season.id %}" class="btn btn-outline-primary btn-lg">{{ other_season }}</a>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>

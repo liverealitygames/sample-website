@@ -23,19 +23,23 @@
         <h2>Our Links</h2>
             <div class="d-flex justify-content-center flex-wrap gap-3">
                 {% for label, href in community.contactinfo.get_links.items %}
-                <p><strong><a href={{ href }}>{{ label|capitalize }}</strong></p>
+                <p><strong><a href={{ href }}>{{ label|capitalize }}</a></strong></p>
                 {% empty %}
                 <p><i>No Contact Info Provided</i></p>
                 {% endfor %}
             </div>
     </div>
 
-    <!-- Staff -->
-    <div class="py-5">
-        <h2 class="text-center mb-4">Staff</h2>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for staff_member in community.staff.all %}
-            <div class="card shadow-sm d-flex flex-row align-items-center p-2 rounded" style="width: 250px; height: 70px;">
+<!-- Staff Section -->
+<div class="py-5">
+    <h2 class="text-center mb-4">Staff</h2>
+    <div class="d-flex justify-content-center flex-wrap gap-4">
+        
+        <!-- Hosts -->
+        <div class="d-flex flex-column align-items-center" style="min-width: 250px;">
+            <h4 class="text-center mb-3">Host(s)</h4>
+            {% for staff_member in community.staff.hosts.all %}
+            <div class="card shadow-sm d-flex flex-row align-items-center p-2 rounded mb-2" style="width: 250px; height: 70px;">
                 <a href="{% url 'profiles:view' staff_member.user.username %}">
                     <img src="https://picsum.photos/60/60" class="rounded-circle me-2" alt="Team Member">
                 </a>
@@ -50,8 +54,49 @@
             </div>
             {% endfor %}
         </div>
+        
+        <!-- Contact -->
+        <div class="d-flex flex-column align-items-center" style="min-width: 250px;">
+            <h4 class="text-center mb-3">Contact</h4>
+            {% for staff_member in community.staff.contacts.all %}
+            <div class="card shadow-sm d-flex flex-row align-items-center p-2 rounded mb-2" style="width: 250px; height: 70px;">
+                <a href="{% url 'profiles:view' staff_member.user.username %}">
+                    <img src="https://picsum.photos/60/60" class="rounded-circle me-2" alt="Team Member">
+                </a>
+                <div class="d-flex flex-column">
+                    <h6 class="mb-0">
+                        <a href="{% url 'profiles:view' staff_member.user.username %}" class="text-dark text-decoration-none">
+                            {{ staff_member.user }}
+                        </a>
+                    </h6>
+                    <small class="text-muted">{{ staff_member.pronouns }}</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Prod -->
+        <div class="d-flex flex-column align-items-center" style="min-width: 250px;">
+            <h4 class="text-center mb-3">Production</h4>
+            {% for staff_member in community.staff.general.all %}
+            <div class="card shadow-sm d-flex flex-row align-items-center p-2 rounded mb-2" style="width: 250px; height: 70px;">
+                <a href="{% url 'profiles:view' staff_member.user.username %}">
+                    <img src="https://picsum.photos/60/60" class="rounded-circle me-2" alt="Team Member">
+                </a>
+                <div class="d-flex flex-column">
+                    <h6 class="mb-0">
+                        <a href="{% url 'profiles:view' staff_member.user.username %}" class="text-dark text-decoration-none">
+                            {{ staff_member.user }}
+                        </a>
+                    </h6>
+                    <small class="text-muted">{{ staff_member.pronouns }}</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
     </div>
-
+</div>
 
     <!-- Create Season Button -->
      {% if user.is_authenticated %}
