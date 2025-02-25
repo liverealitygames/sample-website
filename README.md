@@ -4,7 +4,7 @@
 
 ### Online Access
 
-The latest version of the website should be available at https://sample-website-387476793258.us-central1.run.app/. This version is populated with fake data that is shared between everyone who accesses it.
+The latest version of the website should be available at [https://lrg-demo.jayvivor.com](https://lrg-demo.jayvivor.com) . This version is populated with fake data that is shared between everyone who accesses it.
 If the online version has issues, you could also run a local copy of this website with these steps:
 
 #### Spinning Up
