@@ -19,4 +19,4 @@ python manage.py makemigrations && python manage.py migrate
 python manage.py createsuperuser --no-input
 
 python manage.py add_locations
-python manage.py populate --users=5000 --communities=500 --seasons=25
+python manage.py populate --users=100 --communities=50 --seasons=10

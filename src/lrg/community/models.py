@@ -5,13 +5,6 @@ from community.const import *
 
 # Create your models here.
 
-class ContactInfo(Editable):
-
-    wiki = models.CharField(blank=True, null=True, max_length=256)
-    instagram = models.CharField(blank=True, null=True, max_length=256)
-    facebook = models.CharField(blank=True, null=True, max_length=256)
-    bluesky = models.CharField(blank=True, null=True, max_length=256)
-
 
 class Schedule(Editable):
 
@@ -35,10 +28,8 @@ class Community(Editable):
 
     name = models.CharField(unique=True, max_length=256)
     description = models.TextField(blank=True, null=True)
-    staff = models.ManyToManyField(Profile, related_name="communities_as_staff")
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="communities_owned")
     status = models.CharField(choices=community_status_choices, max_length=256)
-    contact = models.OneToOneField(ContactInfo, on_delete=models.CASCADE, blank=True, null=True)
     banner = models.OneToOneField(ExternalImage, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
@@ -47,7 +38,35 @@ class Community(Editable):
     class Meta:
         verbose_name_plural = "communities"
 
+class ContactInfo(Editable):
 
+    wiki = models.CharField(blank=True, null=True, max_length=256)
+    instagram = models.CharField(blank=True, null=True, max_length=256)
+    facebook = models.CharField(blank=True, null=True, max_length=256)
+    other_link = models.CharField(blank=True, null=True, max_length=256)
+    youtube = models.CharField(blank=True, null=True, max_length=256)
+    community = models.OneToOneField(Community, on_delete=models.CASCADE, blank=True, null=True)
+
+    def handle_to_link(base, handle_or_link):
+        if handle_or_link[0] == "@":
+            return {base:f"https://{base}.com/{handle_or_link[1:]}"}
+        else:
+            return {base:handle_or_link}
+
+    def get_links(self):
+        links = {}
+        if self.wiki:
+            links.update({"wiki":self.wiki})
+        if self.instagram:
+            links.update(ContactInfo.handle_to_link("instagram",self.instagram))
+        if self.facebook:
+            links.update(ContactInfo.handle_to_link("facebook",self.facebook))
+        if self.youtube:
+            links.update(ContactInfo.handle_to_link("youtube",self.youtube))
+        if self.other_link:
+            links.update({"other":self.other_link})
+        return links
+    
 class Season(Editable):
     '''
     Represents a specific season attributable to a Community.
@@ -87,3 +106,27 @@ class Season(Editable):
         description += "Location: "+(str(self.location) if self.location else "???")+"\n"
         description += "Schedule: "+(str(self.schedule) if self.schedule else "???")
         return description
+
+class Staff(Editable):
+
+    '''
+    This represents both active and archived staff information. If a Staff is associated with a community,
+    the assumption is that the information is current; if it is associated with a season, the assumption is that
+    the information is kept for archival purposes and is not necessarily up-to-date.
+    '''
+
+    hosts = models.ManyToManyField(Profile, related_name="staff_as_host")
+    contacts = models.ManyToManyField(Profile, related_name="staff_as_contact")
+    general = models.ManyToManyField(Profile, related_name="staff_as_general")
+    community = models.OneToOneField(Community, on_delete=models.CASCADE)
+
+    def get_all(self):
+        return list(set(self.hosts.all() + self.contacts.all() + self.general.all()))
+    
+    # def is_active(self):
+    #     return bool(self.community)
+    
+    # def __str__(self):
+    #     if self.is_active():
+    #         return f"{self.community} (Active)"
+    #     return f"{self.season} (Historical)"

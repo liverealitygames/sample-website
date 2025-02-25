@@ -134,3 +134,9 @@ a:link {
     background-color: var(--bs-dark);
     color: var(--ghost-white);
 }
+
+.fixed-size-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover; /* Ensures the image fills without distortion */
+}

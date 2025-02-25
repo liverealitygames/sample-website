@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from faker import Faker
 from faker.providers.person.en import Provider
 from profiles.models import Profile
-from community.models import Community, Season, Schedule
+from community.models import Community, Season, Schedule, ContactInfo, Staff
 from homepage.models import Location
 from community.const import SEASON_STATUSES, GAME_FORMATS, COMMUNITY_STATUSES
 from posts.models import Post
@@ -20,7 +20,6 @@ def fake_org_names(num):
     if num > len(Provider.first_names):
         raise ValueError("Not enough first names for the number of users requested")
     fake_names = random.choices(Provider.first_names, num)
-    suffixes = ["-Vivor", "'s Big Brother", "'s The Challenge", "'s Survivor", "'s Reality Games", " Does RGs", " Reality Gaming", " LRGs", " RG Hub"]
     names = [name+random.choice(suffixes) for name in fake_names]
     return names
 
@@ -92,9 +91,36 @@ class Command(BaseCommand):
         )
         self.stdout.write(self.style.SUCCESS('OK'))
 
+        self.stdout.write(f'Creating dummy contact info for communities... ', ending='')
+        contacts = []
+        for community in communities:
+            # 50/50 that they have contact info for each criteria
+            wiki = "https://bigbrother.fandom.com/wiki/David_Alexander" if random.choice([True, False]) else None
+            instagram = "@somehandle" if random.choice([True, False]) else None
+            facebook = "https://www.facebook.com/Survivor/" if random.choice([True, False]) else None
+            youtube = "https://www.youtube.com/watch?v=jNQXAC9IVRw" if random.choice([True, False]) else None
+            other_link = "https://x.com/amazingracecbs" if random.choice([True, False]) else None
+
+            contacts.append(ContactInfo(
+                community=community,
+                wiki=wiki,
+                instagram=instagram,
+                facebook=facebook,
+                youtube=youtube,
+                other_link=other_link,
+            ))
+            
+        contacts = ContactInfo.objects.bulk_create(contacts)
+        self.stdout.write(self.style.SUCCESS('OK'))
+
         self.stdout.write('Setting staff for dummy communities... ', ending='')
         for community in communities:
-            community.staff.set(random.sample(fake_profiles, random.randint(1,5)))
+            potential_staff = random.sample(fake_profiles, random.randint(1,5))
+            staff = Staff(community=community)
+            staff.save()
+            staff.hosts.set([community.owner])
+            staff.contacts.set([community.owner])
+            staff.general.set(potential_staff)
         self.stdout.write(self.style.SUCCESS('OK'))
 
         self.stdout.write(f"Creating 1-{seasons} dummy seasons for each community... ", ending='')

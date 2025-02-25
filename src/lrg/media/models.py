@@ -26,3 +26,26 @@ class Article(Stamped):
 
     def __str__(self):
         return self.title
+    
+# News articles
+class WatchParty(Stamped):
+
+    title = models.CharField(max_length=256)
+    embed = models.CharField(max_length=256)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name_plural = "watch parties"
+    
+# News articles
+class Fundraiser(Stamped):
+
+    title = models.CharField(max_length=256)
+    embed = models.CharField(max_length=256)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector, SearchQuery
 from django.http import JsonResponse
 
-from community.const import GAME_FORMATS
+from community.const import GAME_FORMATS, DEFAULT_BANNERS
 from posts.models import Post
 from community.models import Season
 from homepage.models import Location
@@ -34,6 +34,7 @@ def search(request):
         "countries": ((country_short,country_long) for country_short,country_long in COUNTRIES.items() if country_short in casting_country_ids),
         "formats": GAME_FORMATS,
         "binary_filters": [("Filmed only", "filmed")],
+        "default_banners": DEFAULT_BANNERS.items(),
     }
 
     if request.method == "POST":

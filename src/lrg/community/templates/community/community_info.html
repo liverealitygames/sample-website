@@ -1,6 +1,7 @@
 {% extends "homepage/base.html" %}
 {% block content %}
 {% load static %}
+{% load community_filters %}
 <div class="container py-5">
 
     <!-- Hero -->
@@ -17,34 +18,54 @@
         <p>{{ community.description }}</p>
     </div>
 
+    <!-- Contact -->
+    <div class="py-5 text-center">
+        <h2>Our Links</h2>
+            <div class="d-flex justify-content-center flex-wrap gap-3">
+                {% for label, href in community.contactinfo.get_links.items %}
+                <p><strong><a href={{ href }}>{{ label|capitalize }}</strong></p>
+                {% empty %}
+                <p><i>No Contact Info Provided</i></p>
+                {% endfor %}
+            </div>
+    </div>
+
     <!-- Staff -->
     <div class="py-5">
         <h2 class="text-center mb-4">Staff</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="d-flex justify-content-center flex-wrap gap-3">
             {% for staff_member in community.staff.all %}
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <a href="{% url "profiles:view" staff_member.user.username %}">
-                        <img src="https://picsum.photos/400/200" class="card-img-top" alt="Team Member">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="{% url "profiles:view" staff_member.user.username %}">{{ staff_member.user}}</h5>
-                        <p class="card-text text-muted">{{ staff_member.pronouns }}</p>
-                    </div>
+            <div class="card shadow-sm d-flex flex-row align-items-center p-2 rounded" style="width: 250px; height: 70px;">
+                <a href="{% url 'profiles:view' staff_member.user.username %}">
+                    <img src="https://picsum.photos/60/60" class="rounded-circle me-2" alt="Team Member">
+                </a>
+                <div class="d-flex flex-column">
+                    <h6 class="mb-0">
+                        <a href="{% url 'profiles:view' staff_member.user.username %}" class="text-dark text-decoration-none">
+                            {{ staff_member.user }}
+                        </a>
+                    </h6>
+                    <small class="text-muted">{{ staff_member.pronouns }}</small>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
 
-    <!-- Create Season Button -->
-    <div class="text-center mb-5">
-        <a href="{% url 'community:create_season' community.id %}" class="btn btn-success btn-lg">
-            Create Season
-        </a>
-    </div>
 
-    <!-- Past Seasons -->
+    <!-- Create Season Button -->
+     {% if user.is_authenticated %}
+        {% if user|is_staff:community %}
+        <div class="text-center mb-5">
+            <a href="{% url 'community:create_season' community.id %}" class="btn btn-success btn-lg">
+                Create Season
+            </a>
+        </div>
+        {% endif %}
+     {% endif %}
+
+
+    {% comment %} <!-- Past Seasons -->
     <div class="py-5">
         <h2 class="text-center mb-4">Past Seasons</h2>
         <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -54,7 +75,7 @@
             </div>
             {% endfor %}
         </div>
-    </div>
+    </div> {% endcomment %}
 
 
 </div>

@@ -18,5 +18,19 @@
         </div>
         {% endfor %}
     </div>
+
+    <div class="row">
+        {% for party in watch_parties %}
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ party.title }}</h5>
+                    <p class="card-text">{{ party.description }}</p>
+                    <a href="{{ party.embed }}" target="_blank" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

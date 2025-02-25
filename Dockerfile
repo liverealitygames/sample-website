@@ -10,4 +10,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN dos2unix scripts/full_reset.sh
 RUN dos2unix scripts/startup.sh
 
-CMD ["scripts/startup.sh"]
+CMD ["gunicorn", "lrg.wsgi:application", "--bind", "0.0.0.0:8080"]

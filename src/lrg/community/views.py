@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ValidationError
-from community.models import Community, Season, Schedule
+from community.models import Community, Season, Schedule, ContactInfo
 from homepage.models import Location
 from community.const import GAME_FORMATS
 from posts.const import COUNTRIES, CITIES, STATES
@@ -16,18 +16,31 @@ def browse(request):
 @login_required
 def create_community(request):
     if request.method == "POST":
-        data = {
+        community_data = {
             "name": request.POST.get("communityName"),
             "description": request.POST.get("discussion"),
             "owner": request.user.profile,
             "status": "Under Review",
             }
 
-        community = Community(**data)  # Initialize the object
+        community = Community(**community_data)
+
+        contact_data = {
+            "wiki": request.POST.get("wikiLink", None),
+            "facebook": request.POST.get("fbLink", None),
+            "instagram": request.POST.get("instaLink", None),
+            "youtube": request.POST.get("ytLink", None),
+            "other_link": request.POST.get("otherLink", None),
+            "community": community,
+        }
+
+        contact = ContactInfo(**contact_data)
 
         try:
             community.full_clean()  # Run validation
             community.save()  # Save if valid
+            contact.full_clean()
+            contact.save()
             messages.success(request, "Community created successfully")
             return redirect("community:community_info", community.id)
         except ValidationError as e:
@@ -81,7 +94,6 @@ def create_season(request, community_id):
         "community_id": community_id,
         }
     )
-
 
 def community_info(request, community_id):
     community = get_object_or_404(Community, id=community_id)
