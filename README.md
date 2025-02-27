@@ -4,7 +4,7 @@
 
 ### Online Access
 
-The latest version of the website should be available at https://sample-website-387476793258.us-central1.run.app/. This version is populated with fake data that is shared between everyone who accesses it.
+The latest version of the website should be available at https://lrg-demo.jayvivor.com/ . This version is populated with fake data that is shared between everyone who accesses it.
 If the online version has issues, you could also run a local copy of this website with these steps:
 
 #### Spinning Up
@@ -55,7 +55,7 @@ After removing all containers and images you should be okay to uninstall docker.
 
 ### Tech Stack
 
-- I used Bootstrap/Django/Postgres/GCP as those are the tools I am most comfortable with. I am not married to them and they do cost more money and require more maintenance than other options (GCP especially).
+- I used Bootstrap/Django/SQLite and deployed it on a Fly.io server. This option is cost-effective and SQLite [should be able to handle traffic up to 100k requests/day](https://www.sqlite.org/whentouse.html) - far exceeding what we expect the website to experience. However, SQLite specifically - while a small and efficient database - informs a lot of the other infrastructure decisions. It locks us out of serverless solutions like Cloud Run and App Runner, as SQLite does not perform well when socket mounted.
 
 ### Installation Notes
 
